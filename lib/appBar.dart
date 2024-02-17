@@ -7,7 +7,7 @@ class appBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(150),
+      preferredSize: const Size.fromHeight(150),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

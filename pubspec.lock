@@ -147,6 +147,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.1"
+  get:
+    dependency: "direct dev"
+    description:
+      name: get
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.6.5"
   google_fonts:
     dependency: "direct dev"
     description:
@@ -273,6 +280,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
+  persistent_bottom_nav_bar:
+    dependency: "direct dev"
+    description:
+      name: persistent_bottom_nav_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.2"
   platform:
     dependency: transitive
     description:
