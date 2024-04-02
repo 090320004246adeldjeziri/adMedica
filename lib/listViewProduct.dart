@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:medical/product.dart'; // Import the InfoProduct class
 import 'package:medical/News.dart';
 
+import 'carteManager.dart';
+
 class ListProduct extends StatefulWidget {
   final List<CabItem> newsList; // Your list of NewsItem objects
 
-  const ListProduct(
-      {Key? key, required this.newsList})
-      : super(key: key);
+  const ListProduct({Key? key, required this.newsList}) : super(key: key);
 
   @override
   State<ListProduct> createState() => _ListProductState();
@@ -44,7 +44,6 @@ class _ListProductState extends State<ListProduct> {
                 MaterialPageRoute(
                   builder: (context) => InfoProduct(
                     newsItem: newsItem,
-                    
                   ),
                 ),
               );
@@ -82,10 +81,8 @@ class _ListProductState extends State<ListProduct> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(
-                          onPressed:
-                          ()=> _addToCart(newsItem),
+                          onPressed: () => _addToCart(newsItem),
                           icon: const Icon(Icons.shopping_cart_outlined),
-                          // icon: Icon(Icons.shopping_cart),
                           color: Colors.green,
                         ),
                         Padding(
@@ -98,9 +95,9 @@ class _ListProductState extends State<ListProduct> {
                               color: Colors.blue,
                               borderRadius: BorderRadius.circular(6),
                             ),
-                            child: const Text(
-                              '100da', // Set your price here
-                              style: TextStyle(
+                            child: Text(
+                              "${products[index].prix}DA",
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
                               ),

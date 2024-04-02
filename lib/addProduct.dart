@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,8 +31,8 @@ class _AddProductToFirebaseState extends State<AddProductToFirebase> {
   final TextEditingController _sellerController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _categoryController = TextEditingController();
-   final TextEditingController _placeController = TextEditingController();
-    final TextEditingController _numberController = TextEditingController();
+  final TextEditingController _placeController = TextEditingController();
+  final TextEditingController _numberController = TextEditingController();
 
   @override
   void initState() {
@@ -45,28 +46,25 @@ class _AddProductToFirebaseState extends State<AddProductToFirebase> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            'Add New Product',
-            style: GoogleFonts.lexend(
-              color: Colors.green,
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
+          title: Container(
+            margin: const EdgeInsets.only(
+              left: 140,
+            ),
+            child: Text(
+              textAlign: TextAlign.center,
+              'Add New Product',
+              style: GoogleFonts.lexend(
+                color: Colors.green,
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.green,
-              size: 30,
-            ),
-            onPressed: () {
-              Get.to(NavigationMenu()); // Corrected spelling to 'MyDashboard'
-            },
-          ),
+         
           centerTitle: true,
-          backgroundColor: Colors.transparent.withOpacity(0.01),
-          elevation: 0.5,
-          leadingWidth: 70,
+          backgroundColor: Colors.grey.withOpacity(0.08),
+          toolbarHeight: 70,
+          elevation: 0,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -113,7 +111,7 @@ class _AddProductToFirebaseState extends State<AddProductToFirebase> {
                     const SizedBox(height: 10),
                     FloatingActionButton(
                       onPressed: _selectImage,
-                      tooltip: 'Choose an image',
+                      tooltip: 'Choose images',
                       heroTag: 'imagePickerButton',
                       child: const Icon(Icons.add_a_photo),
                     ),
@@ -193,11 +191,11 @@ class _AddProductToFirebaseState extends State<AddProductToFirebase> {
   }
 
   void _selectImage() async {
-    final XFile? selected =
-        await _picker.pickImage(source: ImageSource.gallery);
-    if (selected != null && selected.path.isNotEmpty) {
+    List<XFile>? selected =
+        await _picker.pickMultiImage(); // Use pickMultiImage for multiple image selection
+    if (selected != null && selected.isNotEmpty) {
       setState(() {
-        _imageList.add(selected);
+        _imageList.addAll(selected);
       });
     }
   }
@@ -250,7 +248,9 @@ class _AddProductToFirebaseState extends State<AddProductToFirebase> {
       backgroundColor: Colors.red,
       textColor: Colors.white,
       fontSize: 16.0,
-    );
+   
+
+ );
 
     imageUrlList.clear();
 

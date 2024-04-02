@@ -10,7 +10,7 @@ class PromoSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(SliderController());
     return Padding(
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       child: Column(
         children: [
           CarouselSlider.builder(
@@ -18,7 +18,7 @@ class PromoSlider extends StatelessWidget {
             options: CarouselOptions(
               viewportFraction: 1,
               height: 180,
-              autoPlayAnimationDuration: Duration(seconds: 1),
+              autoPlayAnimationDuration: const Duration(seconds: 1),
               autoPlay: true,
               onPageChanged: (index, _) => controller.updateIndex(index),
             ),

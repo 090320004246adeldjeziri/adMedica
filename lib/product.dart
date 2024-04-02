@@ -8,6 +8,7 @@ import 'package:medical/main.dart';
 import 'package:medical/title.dart';
 
 import 'FavoriteManager.dart';
+import 'carteManager.dart';
 import 'navigationMenu.dart';
 
 class InfoProduct extends StatefulWidget {
@@ -23,7 +24,7 @@ class InfoProduct extends StatefulWidget {
 }
 
 class _InfoProductState extends State<InfoProduct> {
-    late CabItem _newsitem;
+  late CabItem _newsitem;
 
   @override
   void initState() {
@@ -65,8 +66,8 @@ class _InfoProductState extends State<InfoProduct> {
       if (forward) {
         currentImageIndex = (currentImageIndex + 1) % _newsitem.imgUrl.length;
       } else {
-        currentImageIndex =
-            (currentImageIndex - 1 +  _newsitem.imgUrl.length) %  _newsitem.imgUrl.length;
+        currentImageIndex = (currentImageIndex - 1 + _newsitem.imgUrl.length) %
+            _newsitem.imgUrl.length;
       }
     });
   }
@@ -85,7 +86,7 @@ class _InfoProductState extends State<InfoProduct> {
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 children: [
-                  Positioned.fill(
+                  Positioned(
                     child: Image.network(
                       _newsitem.imgUrl[currentImageIndex],
                       fit: BoxFit.cover,
@@ -194,7 +195,7 @@ class _InfoProductState extends State<InfoProduct> {
                     padding: const EdgeInsets.only(
                         top: 3, left: 5, right: 5, bottom: 3),
                     child: Text(
-                      "Vitamine A",
+                      _newsitem.productName,
                       style: GoogleFonts.lexend(
                         fontSize: 23,
                         color: const Color.fromRGBO(16, 130, 96, 1),
@@ -248,7 +249,7 @@ class _InfoProductState extends State<InfoProduct> {
                       Column(
                         children: [
                           Text(
-                            "2500da",
+                            (double.parse(_newsitem.prix)*quantity).toString()+"DA" ,
                             style: GoogleFonts.lexend(
                               fontSize: 23,
                               color: const Color.fromRGBO(16, 130, 96, 1),
@@ -283,7 +284,7 @@ class _InfoProductState extends State<InfoProduct> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Text(
-                      'Labore sit minim adipisicing voluptate laboris anim exPariatur et esse ad esse. Sit adipisicing ex irure non et labore laborum exercitation duis est. Commodo aliquip ex amet Lorem pariatur reprehenderit cillumcillum officia laborum.',
+                      _newsitem.description,
                       style: GoogleFonts.lexend(
                         fontSize: 15,
                         wordSpacing: 2,
@@ -317,21 +318,5 @@ class _InfoProductState extends State<InfoProduct> {
         ],
       ),
     );
-  }
-}
-
-class CartManager {
-  static List<CabItem> cartItems = [];
-
-  static void addToCart(CabItem newsItem) {
-    cartItems.add(newsItem);
-  }
-
-  static void removeFromCart(CabItem newsItem) {
-    cartItems.remove(newsItem);
-  }
-
-  static bool isInCart(CabItem newsItem) {
-    return cartItems.contains(newsItem);
   }
 }

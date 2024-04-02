@@ -2,11 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:medical/itemList.dart';
 import 'package:medical/promo_slider.dart';
 import 'News.dart';
 import 'package:medical/searchBar.dart';
-import 'package:medical/slider.dart';
 import 'package:medical/title.dart';
 import 'category.dart';
 import 'firebase_options.dart';
@@ -186,9 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
               PromoSlider(),//ChangePictureDemo(),
               const title("Categories", "See All"),
               const SizedBox(height: 20),
-              // item(
-              //   newsItemList: products,
-              // ),
+             
             Category(),
               const SizedBox(
                 height: 4,
