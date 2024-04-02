@@ -1,24 +1,12 @@
 import 'package:flutter/material.dart';
-
-class Item {
-  String title;
-  String imageUrl;
-
-  Item({
-    required this.title,
-    required this.imageUrl,
-  });
-}
+import 'News.dart';
+// Assuming the NewsItem class is defined in news_item.dart
 
 class item extends StatelessWidget {
-  final List<Item> itemList = [
-    Item(title: 'Cleaning', imageUrl: 'assets/images/clean.jpg'),
-    Item(title: 'Makiage', imageUrl: 'assets/images/makeup.jpg'),
-    Item(title: 'Mother & Babe', imageUrl: 'assets/images/mam&babe.jpg'),
-    Item(title: 'Vitamine', imageUrl: 'assets/images/vitamine.jpg'),
-    Item(title: 'Women', imageUrl: 'assets/images/womencare.jpg'),
-    // Add more items to the list as needed
-  ];
+  final List<CabItem> newsItemList;
+
+
+  item({required this.newsItemList});
 
   @override
   Widget build(BuildContext context) {
@@ -26,22 +14,25 @@ class item extends StatelessWidget {
       height: 150.0,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: itemList.length,
+        itemCount: products.length,
         itemBuilder: (context, index) {
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(top: 8.0, left: 20),
             child: Column(
               children: [
                 Container(
                   height: 100.0,
-                  width: 100.0,
-                  child: Image.asset(itemList[index].imageUrl),
+                  width: 140.0, // Using imgUrl from NewsItem
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: Image.network(
+                    products[index].imgUrl[0],
+                    fit: BoxFit.contain,
                   ),
                 ),
-                SizedBox(height: 8.0),
-                Text(itemList[index].title),
+                const SizedBox(height: 5.0),
+                Text(newsItemList[index].place),
               ],
             ),
           );

@@ -9,9 +9,11 @@ class SearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
+        Padding(
+          padding: EdgeInsets.only(left: 16),
           child: Container(
             height: 41,
+            width: 350,
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
               color: Colors.white,

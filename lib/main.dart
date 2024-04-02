@@ -1,44 +1,45 @@
-import 'dart:async';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:medical/appBar.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:medical/itemList.dart';
-import 'package:medical/product.dart';
+import 'package:medical/promo_slider.dart';
+import 'News.dart';
 import 'package:medical/searchBar.dart';
 import 'package:medical/slider.dart';
 import 'package:medical/title.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'dashbord.dart';
+import 'category.dart';
 import 'firebase_options.dart';
 import 'listViewProduct.dart';
-import 'barapping.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
+
+import 'navigationMenu.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(const MyApp());
+  fetchDataFromFirestore();
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Medicament',
-      home: MyDashBoard(),
+      home:  NavigationMenu(),// MyDashBoard(),
       // MyHomePage()
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({
-    super.key,
-  });
+  MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -47,12 +48,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    fetchDataFromFirestore();
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: const Color.fromRGBO(226, 239, 247, 1),
-          leadingWidth: 0.8,
+          elevation: 2,
+          shadowColor: Colors.green,
+          backgroundColor:
+            const Color.fromRGBO(226, 239, 247, 1),
+          leadingWidth: 0.9,
+          toolbarHeight: 70,
           leading: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -63,8 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 35,
-                      height: 35,
+                      width: 38,
+                      height: 38,
                       child: CircleAvatar(
                         backgroundColor:
                             Colors.blueAccent.shade400.withOpacity(0.8),
@@ -80,18 +86,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: 10,
                 ),
                 Column(crossAxisAlignment: CrossAxisAlignment.start,
-                    // mainAxisAlignment: MainAxisAlignment.center,
+                
                     children: [
                       const SizedBox(
-                        height: 10,
+                        height: 18,
                       ),
                       Text("Hi, Adel !",
                           style: GoogleFonts.lexend(
-                              fontSize: 13,
+                              fontSize: 14,
                               color: const Color.fromRGBO(16, 130, 96, 1))),
                       Text("Good Morning!",
                           style: GoogleFonts.poppins(
-                            fontSize: 11,
+                            fontSize: 12,
                             color: const Color.fromARGB(150, 76, 75, 1),
                           )),
                     ])
@@ -105,14 +111,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(
-                        height: 15,
+                        height: 18,
                       ),
                       Row(
                         children: [
                           Text(
                             "Your Location",
                             style: GoogleFonts.poppins(
-                                fontSize: 10,
+                                fontSize: 12,
                                 color: Colors.green,
                                 fontStyle: FontStyle.normal),
                           )
@@ -123,9 +129,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           Text(
                             "Ain Témouchent",
                             style: GoogleFonts.poppins(
-                                fontSize: 10,
-                                color: Colors.green,
-                                fontWeight: FontWeight.w300),
+                                fontSize: 11,
+                                color: Colors.grey.shade600,
+                                fontWeight: FontWeight.w500),
                           )
                         ],
                       )
@@ -138,13 +144,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 Column(
                   children: [
                     const SizedBox(
-                      height: 15,
+                      height: 20,
                     ),
                     Row(
                       children: [
                         Column(
                           children: const [
-                            Icon(Icons.map_sharp, color: Colors.green)
+                            Icon(Icons.location_pin, color: Colors.green)
                           ],
                         ),
                         Column(
@@ -152,7 +158,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             Icon(
                               Icons.notifications,
                               color: Colors.green,
-                              semanticLabel: "news!",
                             )
                           ],
                         ),
@@ -167,34 +172,34 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-        backgroundColor: const Color.fromRGBO(
-            226, 239, 247, 1), // That's primary color in my app
+        // backgroundColor: const Color.fromRGBO(
+        //     226, 239, 247, 1), // That's primary color in my app
         body: SingleChildScrollView(
           child: Padding(
             padding:
-                const EdgeInsets.only(top: 5, left: 20, right: 20, bottom: 20),
+                const EdgeInsets.only(top: 12, left: 20, right: 20, bottom: 20),
             child: Column(children: [
-              // const appBar(),
-              // const SizedBox(
-              //   height: 20,
-              // ),
               const SearchBar(),
               const SizedBox(
                 height: 20,
               ),
-              ChangePictureDemo(),
+              PromoSlider(),//ChangePictureDemo(),
               const title("Categories", "See All"),
               const SizedBox(height: 20),
-              item(),
+              // item(
+              //   newsItemList: products,
+              // ),
+            Category(),
               const SizedBox(
                 height: 4,
               ),
               const title("New Products", "See All"),
-       
               const SizedBox(
                 height: 10,
               ),
-              const ListProduct()
+              ListProduct(
+                newsList: products,
+              )
             ]),
           ),
         ),

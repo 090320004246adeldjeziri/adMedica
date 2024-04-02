@@ -7,7 +7,7 @@ class title extends StatelessWidget {
   final String titleL ;
   const title(this.titleG,this.titleL,
     {super.key});
-
+    
   @override
   Widget build(BuildContext context) {
     return Padding(

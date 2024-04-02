@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAFk-XRa25V8r5dKcBJ9Nb_CbTlUPxEHjs',
-    appId: '1:75979297009:web:81548085cf871498365950',
-    messagingSenderId: '75979297009',
-    projectId: 'medicalapp-988dc',
-    authDomain: 'medicalapp-988dc.firebaseapp.com',
-    storageBucket: 'medicalapp-988dc.appspot.com',
-    measurementId: 'G-9RPW2ZHF4D',
+    apiKey: 'AIzaSyBUerFUvT5td7U8evcnDHRpiL7h9KqxZu8',
+    appId: '1:1002122361097:web:597d9c90040834bd8ebbd8',
+    messagingSenderId: '1002122361097',
+    projectId: 'medical-9c0a9',
+    authDomain: 'medical-9c0a9.firebaseapp.com',
+    storageBucket: 'medical-9c0a9.appspot.com',
+    measurementId: 'G-NQFTC4WXGJ',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAuOTJdWVwY0dA5-kMv-H6xa3dSJcWRxvs',
-    appId: '1:75979297009:android:6a917837b0f3c2a6365950',
-    messagingSenderId: '75979297009',
-    projectId: 'medicalapp-988dc',
-    storageBucket: 'medicalapp-988dc.appspot.com',
+    apiKey: 'AIzaSyDB0aS4AlvHUVGRKcdnTrjcN6JgmQiCD20',
+    appId: '1:1002122361097:android:8144a69f9bcaf2d08ebbd8',
+    messagingSenderId: '1002122361097',
+    projectId: 'medical-9c0a9',
+    storageBucket: 'medical-9c0a9.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCkw7zRtcBsHq8Kj4s07nrWkSv-95OTt4s',
-    appId: '1:75979297009:ios:2cb606b69c9b4430365950',
-    messagingSenderId: '75979297009',
-    projectId: 'medicalapp-988dc',
-    storageBucket: 'medicalapp-988dc.appspot.com',
+    apiKey: 'AIzaSyBkQTJ5Ce8-0KS3zX-wbIwFhNic09nrBLs',
+    appId: '1:1002122361097:ios:79879ebb43ebdee28ebbd8',
+    messagingSenderId: '1002122361097',
+    projectId: 'medical-9c0a9',
+    storageBucket: 'medical-9c0a9.appspot.com',
     iosBundleId: 'com.example.medical',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCkw7zRtcBsHq8Kj4s07nrWkSv-95OTt4s',
-    appId: '1:75979297009:ios:2cb606b69c9b4430365950',
-    messagingSenderId: '75979297009',
-    projectId: 'medicalapp-988dc',
-    storageBucket: 'medicalapp-988dc.appspot.com',
+    apiKey: 'AIzaSyBkQTJ5Ce8-0KS3zX-wbIwFhNic09nrBLs',
+    appId: '1:1002122361097:ios:79879ebb43ebdee28ebbd8',
+    messagingSenderId: '1002122361097',
+    projectId: 'medical-9c0a9',
+    storageBucket: 'medical-9c0a9.appspot.com',
     iosBundleId: 'com.example.medical',
   );
 }
