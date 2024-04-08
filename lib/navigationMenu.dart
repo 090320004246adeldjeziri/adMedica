@@ -1,22 +1,20 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medical/addProduct.dart';
+import 'package:medical/carteShopping.dart';
 import 'package:medical/favorite.dart';
 import 'package:medical/main.dart';
-import 'package:medical/product.dart';
-import 'package:medical/carteShopping.dart';
+import 'selectImg.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(NavigationController());
-    int x = 0;
     return Scaffold(
       backgroundColor: Colors.green,
       bottomNavigationBar: Obx(
@@ -45,6 +43,12 @@ class NavigationMenu extends StatelessWidget {
                   size: 26,
                 ),
                 label: "Favorites"),
+                NavigationDestination(
+                icon: Icon(
+                  CupertinoIcons.scope,
+                  size: 26,
+                ),
+                label: "Pharmacy"),
             NavigationDestination(
                 icon: Icon(
                   CupertinoIcons.add_circled,
@@ -66,6 +70,7 @@ class NavigationController extends GetxController {
     MyHomePage(),
     CartPage(),
     FavoritesPage(),
+    SelectImg(title: "selectionner l'ordonnance "),
     AddProductToFirebase()
   ];
 }

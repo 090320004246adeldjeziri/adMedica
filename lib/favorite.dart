@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:medical/FavoriteManager.dart';
 import 'package:get/get.dart';
 import 'package:medical/carteManager.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FavoritesPage extends StatefulWidget {
   const FavoritesPage({Key? key}) : super(key: key);
@@ -80,10 +81,22 @@ class _FavoritesPageState extends State<FavoritesPage> {
                             FavoritesManager.favorits.removeAt(index);
                           });
                         },
-                        icon: const Icon(
-                          CupertinoIcons.clear_fill,
-                          size: 35,
-                          color: Colors.red,
+                        icon: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    spreadRadius: 2,
+                                    blurRadius: 4,
+                                    color: Colors.red)
+                              ],
+                              color: Colors.white.withOpacity(1),
+                              shape: BoxShape.circle),
+                          child: const Icon(
+                            Icons.clear_rounded,
+                            size: 26,
+                            color: Colors.red,
+                          ),
                         ),
                       ),
                     ),
@@ -94,9 +107,16 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(FavoritesManager.favorits[index].prix),
+                      Text(
+                        "${FavoritesManager.favorits[index].prix} DA",
+                        style: GoogleFonts.lexend(
+                            color: Colors.green, fontWeight: FontWeight.bold),
+                      ),
                       IconButton(
-                          icon: const Icon(CupertinoIcons.bag_badge_plus),
+                          icon: const Icon(
+                            CupertinoIcons.bag_badge_plus,
+                            color: Colors.green,
+                          ),
                           onPressed: (() => setState(() {
                                 if (!CartManager.isInCart(
                                     FavoritesManager.favorits[index])) {
