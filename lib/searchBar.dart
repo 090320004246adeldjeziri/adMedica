@@ -34,7 +34,7 @@ class SearchBar extends StatelessWidget {
                   child: TextField(
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
-                  hintText: "Search ...",
+                  hintText: "Search Product",
                   hintStyle: TextStyle(
                     fontFamily: GoogleFonts.poppins().fontFamily,
                     fontWeight: FontWeight.normal,

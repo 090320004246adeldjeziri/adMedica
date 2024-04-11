@@ -1,21 +1,17 @@
-// ignore_for_file: unused_element
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'img_controller.dart';
 import 'services/imagesService.dart';
-
-
 
 class Pharmacy {
   final String name;
   final double distance;
   final double latitude;
   final double longitude;
+  final String imagePath; // New field for image path
   bool isSelected;
 
   Pharmacy({
@@ -23,41 +19,44 @@ class Pharmacy {
     required this.distance,
     required this.latitude,
     required this.longitude,
+    required this.imagePath, // Include image path in constructor
     this.isSelected = false,
   });
 }
 
 class PharmacyListScreen extends StatefulWidget {
-  const PharmacyListScreen({
-    super.key,
-  });
+  const PharmacyListScreen({Key? key}) : super(key: key);
+
   @override
   _PharmacyListScreenState createState() => _PharmacyListScreenState();
 }
 
 class _PharmacyListScreenState extends State<PharmacyListScreen> {
-  List<double> distances = [500, 1000, 1500, 2000]; // Distances en mètres
+  List<double> distances = [500, 1000, 1500, 2000];
   double selectedDistance = 500;
-  static ImageController controller = Get.put(ImageController());
+  static ImageController controller = ImageController();
   List<Pharmacy> pharmacies = [
     Pharmacy(
-        name: 'Pharmacy Benhabi fethallah',
-        distance: 2.5,
-        // 35.300947590498495, -1.1238237137100218
-        // 35.30094, -1.12382
-        latitude: 35.30094,
-        longitude: -1.12382),
+      name: 'Pharmacy Benhabi fethallah',
+      distance: 2.5,
+      latitude: 35.30094,
+      longitude: -1.12382,
+      imagePath: 'path_to_image1', // Image path for pharmacy 1
+    ),
     Pharmacy(
-        name: 'Pharmacy DR kichah',
-        // 35.29580029144952, -1.1270509789752885
-        distance: 4.0,
-        latitude: 35.29580, 
-        longitude: -1.12705),
+      name: 'Pharmacy DR kichah',
+      distance: 4.0,
+      latitude: 35.29580,
+      longitude: -1.12705,
+      imagePath: 'path_to_image2', // Image path for pharmacy 2
+    ),
     Pharmacy(
-        name: 'Pharmacy Belghoumari',
-        distance: 1.2,
-        latitude: 35.30728, 
-        longitude: -1.13514,),
+      name: 'Pharmacy Belghoumari',
+      distance: 1.2,
+      latitude: 35.30728,
+      longitude: -1.13514,
+      imagePath: 'path_to_image3', // Image path for pharmacy 3
+    ),
   ];
   bool isAllSelected = false;
 
@@ -71,53 +70,48 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
       ),
       body: Column(
         children: [
-Row(
-  children: [
-    // ignore: prefer_const_constructors
-    Padding(
-      padding: const EdgeInsets.all(8.0),
- 
-    ),
-    const Flexible(
-      child: Text(
-        'Choisissez la distance : ',
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-        ),
-        softWrap: true,
-      ),
-    ),
-    const SizedBox(width: 10),
-    DropdownButton<int>(
-      value: selectedDistance.toInt(),
-      onChanged: (int? value) {
-        setState(() {
-          selectedDistance = value!.toDouble();
-        });
-      },
-      items: [500, 1000, 1500, 2000].map<DropdownMenuItem<int>>((int distance) {
-        return DropdownMenuItem<int>(
-          value: distance,
-          child: Text(distance == 500 ? 'Moins de 500 mètres' : '${distance / 1000} km'),
-        );
-      }).toList(),
-      style: const TextStyle(
-        color: Colors.black,
-        fontSize: 16,
-      ),
-      icon: const Icon(Icons.arrow_drop_down),
-      underline: Container(
-        height: 1,
-        color: Colors.grey,
-      ),
-    ),
-  ],
-)
-
-,
-
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+              ),
+              const Flexible(
+                child: Text(
+                  'Choisissez la distance : ',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  softWrap: true,
+                ),
+              ),
+              const SizedBox(width: 10),
+              DropdownButton<int>(
+                value: selectedDistance.toInt(),
+                onChanged: (int? value) {
+                  setState(() {
+                    selectedDistance = value!.toDouble();
+                  });
+                },
+                items: [500, 1000, 1500, 2000].map<DropdownMenuItem<int>>((int distance) {
+                  return DropdownMenuItem<int>(
+                    value: distance,
+                    child: Text(distance == 500 ? 'Moins de 500 mètres' : '${distance / 1000} km'),
+                  );
+                }).toList(),
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
+                icon: const Icon(Icons.arrow_drop_down),
+                underline: Container(
+                  height: 1,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: pharmacies.length,
@@ -140,6 +134,10 @@ Row(
                       });
                     },
                   ),
+                  onTap: () {
+                    // Set the selected image path when a pharmacy is tapped
+                    ImageService.selectedImagePath = pharmacies[index].imagePath;
+                  },
                 );
               },
             ),
@@ -167,15 +165,12 @@ Row(
           const SizedBox(width: 10), // Add some space between buttons
           anyItemSelected
               ? FloatingActionButton(
-                  // Show only if any item is selecte
                   onPressed: () {
-                
-                    if(ImageService.selectedImagePath != "nn"){
-                       _handleSendImage(context, ImageService.selectedImagePath!);
-                    }else{
-                      print("selectionner un image svp");
+                    if (ImageService.selectedImagePath != "nn") {
+                      _handleSendImage(context, ImageService.selectedImagePath!);
+                    } else {
+                      print("select an image please");
                     }
-                    
                   },
                   child: const Icon(Icons.send),
                 )

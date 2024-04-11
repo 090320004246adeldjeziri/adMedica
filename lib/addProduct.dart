@@ -56,7 +56,7 @@ class _AddProductToFirebaseState extends State<AddProductToFirebase> {
             const SizedBox(height: 20),
             _buildTextField(
               labelText: 'Seller',
-              hintText: 'Enter your name',
+              hintText: 'Enter Pharmacy name',
               controller: _sellerController,
             ),
             const SizedBox(height: 16),

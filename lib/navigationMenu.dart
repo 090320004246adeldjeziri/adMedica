@@ -7,11 +7,12 @@ import 'package:medical/addProduct.dart';
 import 'package:medical/carteShopping.dart';
 import 'package:medical/favorite.dart';
 import 'package:medical/main.dart';
+import 'package:medical/searchBar.dart';
 import 'selectImg.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(NavigationController());
@@ -43,7 +44,7 @@ class NavigationMenu extends StatelessWidget {
                   size: 26,
                 ),
                 label: "Favorites"),
-                NavigationDestination(
+            NavigationDestination(
                 icon: Icon(
                   CupertinoIcons.scope,
                   size: 26,
@@ -55,6 +56,7 @@ class NavigationMenu extends StatelessWidget {
                   size: 26,
                 ),
                 label: "Add Product"),
+           
           ],
         ),
       ),
@@ -71,6 +73,7 @@ class NavigationController extends GetxController {
     CartPage(),
     FavoritesPage(),
     SelectImg(title: "selectionner l'ordonnance "),
-    AddProductToFirebase()
+    AddProductToFirebase(),
+  
   ];
 }

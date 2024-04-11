@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,17 +11,23 @@ import 'category.dart';
 import 'firebase_options.dart';
 import 'listViewProduct.dart';
 import 'package:get/get.dart';
-
+import 'package:device_preview/device_preview.dart';
 import 'navigationMenu.dart';
+import 'searchScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  runApp(const MyApp());
   fetchDataFromFirestore();
+
+  runApp(
+    DevicePreview(
+      enabled: true,
+      builder: (context) => const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -30,7 +37,7 @@ class MyApp extends StatelessWidget {
     return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Medicament',
-      home:  NavigationMenu(),// MyDashBoard(),
+      home: NavigationMenu(), // MyDashBoard(),
       // MyHomePage()
     );
   }
@@ -51,10 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          elevation: 2,
-          shadowColor: Colors.green,
-          backgroundColor:
-            const Color.fromRGBO(226, 239, 247, 1),
+          elevation: 0.2,
+          backgroundColor: const Color.fromRGBO(226, 239, 247, 1),
           leadingWidth: 0.9,
           toolbarHeight: 70,
           leading: Row(
@@ -83,121 +88,91 @@ class _MyHomePageState extends State<MyHomePage> {
                 const SizedBox(
                   width: 10,
                 ),
-                Column(crossAxisAlignment: CrossAxisAlignment.start,
-                
-                    children: [
-                      const SizedBox(
-                        height: 18,
-                      ),
-                      Text("Hi, Adel !",
-                          style: GoogleFonts.lexend(
-                              fontSize: 14,
-                              color: const Color.fromRGBO(16, 130, 96, 1))),
-                      Text("Good Morning!",
-                          style: GoogleFonts.poppins(
-                            fontSize: 12,
-                            color: const Color.fromARGB(150, 76, 75, 1),
-                          )),
-                    ])
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  const SizedBox(
+                    height: 18,
+                  ),
+                  Text("Hi, Adel !",
+                      style: GoogleFonts.lexend(
+                          fontSize: 14,
+                          color: const Color.fromRGBO(16, 130, 96, 1))),
+                  Text("Good Morning!",
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        color: const Color.fromARGB(150, 76, 75, 1),
+                      )),
+                ])
               ]),
           actions: [
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 18,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Your Location",
-                            style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: Colors.green,
-                                fontStyle: FontStyle.normal),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Ain Témouchent",
-                            style: GoogleFonts.poppins(
-                                fontSize: 11,
-                                color: Colors.grey.shade600,
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Column(
-                  children: [
-                    const SizedBox(
-                      height: 20,
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SearchScreen(products: products),
                     ),
-                    Row(
-                      children: [
-                        Column(
-                          children: const [
-                            Icon(Icons.location_pin, color: Colors.green)
-                          ],
-                        ),
-                        Column(
-                          children: const [
-                            Icon(
-                              Icons.notifications,
-                              color: Colors.green,
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          width: 11,
-                        )
-                      ],
-                    ),
-                  ],
-                )
-              ],
-            ),
+                  );
+                },
+                child: Icon(
+                  CupertinoIcons.search,
+                  color: Colors.green,
+                  size: 30,
+                ),
+              ),
+            )
           ],
         ),
-        // backgroundColor: const Color.fromRGBO(
-        //     226, 239, 247, 1), // That's primary color in my app
         body: SingleChildScrollView(
-          child: Padding(
-            padding:
-                const EdgeInsets.only(top: 12, left: 20, right: 20, bottom: 20),
-            child: Column(children: [
-              const SearchBar(),
-              const SizedBox(
-                height: 20,
-              ),
-              PromoSlider(),//ChangePictureDemo(),
-              const title("Categories", "See All"),
-              const SizedBox(height: 20),
-             
-            Category(),
-              const SizedBox(
-                height: 4,
-              ),
-              const title("New Products", "See All"),
-              const SizedBox(
-                height: 10,
-              ),
-              ListProduct(
+          padding: EdgeInsets.only(top: 15),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+//             Padding(
+//   padding: const EdgeInsets.only(top: 12, left: 20, right: 20, bottom: 0),
+//   child: Center(
+//     child: GestureDetector(
+//       onTap: () {
+//         Navigator.push(
+//           context,
+//           MaterialPageRoute(
+//             builder: (context) => SearchScreen(products: products),
+//           ),
+//         );
+//       },
+//       child: const SearchBar(),
+//     ),
+//   ),
+// ),
+//             const SizedBox(
+//               height: 20,
+//             ),
+            PromoSlider(),
+            const Padding(
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: title("Categories", "See All"),
+            ),
+            const SizedBox(height: 20),
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Category(),
+            ),
+
+            const Padding(
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: title("New Products", "See All"),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListProduct(
                 newsList: products,
-              )
-            ]),
-          ),
+              ),
+            )
+          ]),
         ),
       ),
     );
