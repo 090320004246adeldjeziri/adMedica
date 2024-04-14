@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'img_controller.dart';
-import 'services/imagesService.dart';
+import '../services/imagesService.dart';
 
 class Pharmacy {
   final String name;

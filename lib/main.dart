@@ -14,6 +14,7 @@ import 'package:get/get.dart';
 import 'package:device_preview/device_preview.dart';
 import 'navigationMenu.dart';
 import 'searchScreen.dart';
+import 'package:medical/mohamed/iconNotif.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -104,7 +105,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ])
               ]),
           actions: [
-            Icon(Icons.notifications_off_rounded,color: Colors.green,size: 30,),
+            NotificationIcon(updateNewDocumentCount: (int ) {  },),
+           
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: GestureDetector(
@@ -126,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         body: SingleChildScrollView(
-          padding: EdgeInsets.only(top: 15),
+          padding: const EdgeInsets.only(top: 15),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
 //             Padding(
@@ -148,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //             const SizedBox(
 //               height: 20,
 //             ),
-            PromoSlider(),
+            const PromoSlider(),
             const Padding(
               padding: EdgeInsets.only(left: 10, right: 10),
               child: title("Categories", "See All"),
