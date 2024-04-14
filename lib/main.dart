@@ -15,6 +15,7 @@ import 'package:get/get.dart';
 import 'package:device_preview/device_preview.dart';
 import 'navigationMenu.dart';
 import 'searchScreen.dart';
+import 'package:medical/mohamed/iconNotif.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
           toolbarHeight: 70,
           leading:const leadingHomePage(),
           actions: [
-            const Icon(Icons.notifications,color: Colors.green,size: 30,),
+            Icon(Icons.notifications_off_rounded,color: Colors.green,size: 30,),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: GestureDetector(
@@ -90,8 +91,26 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.only(top: 15),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-
-            const PromoSlider(),
+//             Padding(
+//   padding: const EdgeInsets.only(top: 12, left: 20, right: 20, bottom: 0),
+//   child: Center(
+//     child: GestureDetector(
+//       onTap: () {
+//         Navigator.push(
+//           context,
+//           MaterialPageRoute(
+//             builder: (context) => SearchScreen(products: products),
+//           ),
+//         );
+//       },
+//       child: const SearchBar(),
+//     ),
+//   ),
+// ),
+//             const SizedBox(
+//               height: 20,
+//             ),
+            PromoSlider(),
             const Padding(
               padding: EdgeInsets.only(left: 10, right: 10),
               child: title("Categories", "See All"),
