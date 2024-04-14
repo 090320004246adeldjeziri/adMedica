@@ -14,6 +14,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   List<CabItem> filteredProducts = [];
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -21,88 +22,150 @@ class _SearchScreenState extends State<SearchScreen> {
     filteredProducts = widget.products;
   }
 
-  void filterProducts(String query) {
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _filterProducts(String query) {
     setState(() {
       filteredProducts = widget.products
           .where((product) =>
-              product.productName.toLowerCase().contains(query.toLowerCase()))
+              product.productName.toLowerCase().contains(query.toLowerCase()) ||
+              product.description.toLowerCase().contains(query.toLowerCase()) ||
+              product.seller.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Search Products',
-          style: GoogleFonts.poppins(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        centerTitle: true,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60.0),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(30.0),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color.fromRGBO(226, 239, 247, 1), // Light blue color
+          toolbarHeight: MediaQuery.of(context).size.height *
+              0.065, // 6.5% of screen height
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.green,
+              size: 28,
             ),
-            child: TextField(
-              onChanged: filterProducts,
-              decoration: InputDecoration(
-                hintText: 'Search products...',
-                hintStyle: GoogleFonts.poppins(
-                  color: Colors.grey.shade600,
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          title: Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 2.0, top: 8, bottom: 8),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height *
+                    0.05, // 5% of screen height
+                child: TextField(
+                  enableSuggestions: true,
+                  textAlign: TextAlign.left,
+                  controller: _searchController,
+                  onChanged: _filterProducts,
+                  decoration: InputDecoration(
+                    hintText: 'Find Your Product !',
+                    contentPadding: EdgeInsets.fromLTRB(48, 5, 24, 14),
+                    hintStyle: GoogleFonts.lexend(
+                      color: Colors.green,
+                    ),
+                    prefixIcon: const Icon(Icons.search, color: Colors.green),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    prefixIconColor: Colors.green,
+                    fillColor: Colors.white,
+                  ),
                 ),
-                prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
               ),
             ),
           ),
         ),
+        body: filteredProducts.isNotEmpty
+            ? ListView.builder(
+                itemCount: filteredProducts.length,
+                itemBuilder: (context, index) {
+                  final product = filteredProducts[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.network(
+                                product.imgUrl[0],
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            const SizedBox(width: 16.0),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    product.productName,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4.0),
+                                  Text(
+                                    product.prix,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      color: Colors.grey.shade700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          product.description,
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            color: Colors.grey.shade700,
+                          ),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          'Seller: ${product.seller}',
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            color: Colors.grey.shade700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              )
+            : Center(
+                child: Text(
+                  'No products found',
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    color: Colors.grey.shade600,
+                  ),
+                ),
+              ),
       ),
-      body: filteredProducts.isNotEmpty
-          ? ListView.builder(
-              itemCount: filteredProducts.length,
-              itemBuilder: (context, index) {
-                final product = filteredProducts[index];
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(product.imgUrl[0]),
-                  ),
-                  title: Text(
-                    product.productName,
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  subtitle: Text(
-                    product.prix,
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      color: Colors.grey.shade700,
-                    ),
-                  ),
-                );
-              },
-            )
-          : Center(
-              child: Text(
-                'No products found',
-                style: GoogleFonts.poppins(
-                  fontSize: 18,
-                  color: Colors.grey.shade600,
-                ),
-              ),
-            ),
     );
   }
 }
