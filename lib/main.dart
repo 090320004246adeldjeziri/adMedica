@@ -9,6 +9,7 @@ import 'package:medical/searchBar.dart';
 import 'package:medical/title.dart';
 import 'category.dart';
 import 'firebase_options.dart';
+import 'leadingHomePage.dart';
 import 'listViewProduct.dart';
 import 'package:get/get.dart';
 import 'package:device_preview/device_preview.dart';
@@ -62,49 +63,9 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: const Color.fromRGBO(226, 239, 247, 1),
           leadingWidth: 0.9,
           toolbarHeight: 70,
-          leading: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const SizedBox(width: 20),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 38,
-                      height: 38,
-                      child: CircleAvatar(
-                        backgroundColor:
-                            Colors.blueAccent.shade400.withOpacity(0.8),
-                        child: const Icon(
-                          size: 25,
-                          Icons.person_outline_outlined,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  const SizedBox(
-                    height: 18,
-                  ),
-                  Text("Hi, Adel !",
-                      style: GoogleFonts.lexend(
-                          fontSize: 14,
-                          color: const Color.fromRGBO(16, 130, 96, 1))),
-                  Text("Good Morning!",
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        color: const Color.fromARGB(150, 76, 75, 1),
-                      )),
-                ])
-              ]),
+          leading:const leadingHomePage(),
           actions: [
-            Icon(Icons.notifications_off_rounded,color: Colors.green,size: 30,),
+            const Icon(Icons.notifications,color: Colors.green,size: 30,),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: GestureDetector(
@@ -126,29 +87,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         body: SingleChildScrollView(
-          padding: EdgeInsets.only(top: 15),
+          padding: const EdgeInsets.only(top: 15),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-//             Padding(
-//   padding: const EdgeInsets.only(top: 12, left: 20, right: 20, bottom: 0),
-//   child: Center(
-//     child: GestureDetector(
-//       onTap: () {
-//         Navigator.push(
-//           context,
-//           MaterialPageRoute(
-//             builder: (context) => SearchScreen(products: products),
-//           ),
-//         );
-//       },
-//       child: const SearchBar(),
-//     ),
-//   ),
-// ),
-//             const SizedBox(
-//               height: 20,
-//             ),
-            PromoSlider(),
+
+            const PromoSlider(),
             const Padding(
               padding: EdgeInsets.only(left: 10, right: 10),
               child: title("Categories", "See All"),

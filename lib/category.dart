@@ -47,7 +47,7 @@ class Category extends StatelessWidget {
                   color: isSelected ? Colors.green : Colors.grey,
                 ),
                 child: Text(
-                  category!,
+                  category,
                   style: TextStyle(
                     color: isSelected ? Colors.white : Colors.black,
                     fontSize: 12.0,
