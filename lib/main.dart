@@ -104,6 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ])
               ]),
           actions: [
+            Icon(Icons.notifications_off_rounded,color: Colors.green,size: 30,),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: GestureDetector(
@@ -115,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   );
                 },
-                child: Icon(
+                child: const Icon(
                   CupertinoIcons.search,
                   color: Colors.green,
                   size: 30,
