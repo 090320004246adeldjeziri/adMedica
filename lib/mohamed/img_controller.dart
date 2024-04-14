@@ -9,6 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart' as path;
 
+import 'partie_pharmacy/ordonance_detail.dart';
+
 
 
 class ImageController extends GetxController {
@@ -77,6 +79,14 @@ Future<void> uploadImageAndAddToFirestore(String imagePath) async {
     print('L\'URL de l\'image est null, veuillez vérifier les erreurs.');
   }
 }
+ void navigateToAgrandirImage(BuildContext context, String imageUrl) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AgrandirImagePage(imageUrl: imageUrl),
+      ),
+    );
+  }
 
 
   

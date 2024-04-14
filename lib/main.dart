@@ -64,9 +64,9 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: const Color.fromRGBO(226, 239, 247, 1),
           leadingWidth: 0.9,
           toolbarHeight: 70,
-          leading:const leadingHomePage(),
+          leading: const leadingHomePage(),
           actions: [
-            Icon(Icons.notifications_off_rounded,color: Colors.green,size: 30,),
+            GestureDetector(child: NotificationIcon()),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: GestureDetector(
