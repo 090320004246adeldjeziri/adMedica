@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'img_controller.dart';
-import 'services/imagesService.dart';
+import '../services/imagesService.dart';
 
 class Pharmacy {
   final String name;
@@ -203,15 +204,23 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
     OverlayEntry? overlayEntry;
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        top: 30,
+        top: MediaQuery.of(context).size.height*0.4,
         left: 0,
         right: 0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: const [
-            CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+Center(
+  child:   SpinKitFadingCircle(
+  
+              color: Colors.green,
+  
+              size: 100.0,
+  
+  
+  
             ),
+),
           ],
         ),
       ),

@@ -7,8 +7,9 @@ import 'package:medical/addProduct.dart';
 import 'package:medical/carteShopping.dart';
 import 'package:medical/favorite.dart';
 import 'package:medical/main.dart';
+import 'package:medical/mohamed/partie_pharmacy/list_notification.dart';
 import 'package:medical/searchBar.dart';
-import 'selectImg.dart';
+import 'mohamed/selectImg.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
@@ -56,6 +57,12 @@ class NavigationMenu extends StatelessWidget {
                   size: 26,
                 ),
                 label: "Add Product"),
+                  NavigationDestination(
+                icon: Icon(
+                  CupertinoIcons.list_bullet,
+                  size: 26,
+                ),
+                label: "ordonnanc"),
            
           ],
         ),
@@ -74,6 +81,7 @@ class NavigationController extends GetxController {
     FavoritesPage(),
     SelectImg(title: "selectionner l'ordonnance "),
     AddProductToFirebase(),
+    const Teacher(),
   
   ];
 }

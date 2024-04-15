@@ -9,9 +9,9 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:path/path.dart' as path;
 
-import '../img_controller.dart';
-import '../listPharma.dart';
-import '../selectImg.dart';
+import '../mohamed/img_controller.dart';
+import '../mohamed/listPharma.dart';
+import '../mohamed/selectImg.dart';
 import '../services/imagesService.dart';
 
 class ButtonSelectImg extends StatelessWidget {
@@ -88,6 +88,7 @@ class ButtonSelectImg extends StatelessWidget {
               icon: const Icon(Icons.close),
               onPressed: () {
                 Navigator.of(context).pop(); // Ferme l'écran
+                 
               },
             ),
           ),
