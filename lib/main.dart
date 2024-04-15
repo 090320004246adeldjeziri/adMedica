@@ -105,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ])
               ]),
           actions: [
-            NotificationIcon(updateNewDocumentCount: (int ) {  },),
+            NotificationIcon(),
            
             Padding(
               padding: const EdgeInsets.all(20.0),
