@@ -88,6 +88,7 @@ class ButtonSelectImg extends StatelessWidget {
               icon: const Icon(Icons.close),
               onPressed: () {
                 Navigator.of(context).pop(); // Ferme l'écran
+                 
               },
             ),
           ),

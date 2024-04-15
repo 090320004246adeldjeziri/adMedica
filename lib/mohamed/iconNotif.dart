@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'recive.dart';
+
 class NotificationIcon extends StatefulWidget {
   @override
   _NotificationIconState createState() => _NotificationIconState();
@@ -56,9 +58,14 @@ class _NotificationIconState extends State<NotificationIcon> {
       badgeContent: _newDocumentCount > 0 && !_iconPressed ? Text('$_newDocumentCount', style: const TextStyle(color: Color.fromARGB(255, 223, 214, 214))) : null,
       child: IconButton(
         icon: const Icon(Icons.notifications, color: Colors.green,),
-        onPressed: () {
-          fetchNewDocuments();
-        },
+         onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MessageListScreen ()),
+              
+            );
+            fetchNewDocuments();
+          },
       ),
     );
   }
