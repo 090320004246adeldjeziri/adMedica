@@ -142,6 +142,7 @@ class _AgrandirImagePageState extends State<AgrandirImagePage> {
       await FirebaseFirestore.instance.collection('messages').add({
         'text': text,
         'timestamp': DateTime.now(),
+        'isRead':false,
       });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Message sent successfully'),
