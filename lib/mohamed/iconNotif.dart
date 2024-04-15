@@ -71,7 +71,11 @@ class _NotificationIconState extends State<NotificationIcon> {
             size: 30,
             color: Colors.green,
           ),
-          onPressed: () {
+            onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>MessageListScreen()),
+            );
             fetchNewDocuments();
           },
         ),
