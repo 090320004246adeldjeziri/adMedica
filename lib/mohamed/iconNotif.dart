@@ -21,7 +21,10 @@ class _NotificationIconState extends State<NotificationIcon> {
   }
 
   void listenToDocumentChanges() {
-    FirebaseFirestore.instance.collection('messages').snapshots().listen((snapshot) {
+    FirebaseFirestore.instance
+        .collection('messages')
+        .snapshots()
+        .listen((snapshot) {
       if (_iconPressed) {
         setState(() {
           _newDocumentCount = 0;
@@ -54,18 +57,24 @@ class _NotificationIconState extends State<NotificationIcon> {
   @override
   Widget build(BuildContext context) {
     return Badge(
-      position: BadgePosition.topEnd(top: 2, end: 9),
-      badgeContent: _newDocumentCount > 0 && !_iconPressed ? Text('$_newDocumentCount', style: const TextStyle(color: Color.fromARGB(255, 223, 214, 214))) : null,
-      child: IconButton(
-        icon: const Icon(Icons.notifications, color: Colors.green,),
-         onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MessageListScreen ()),
-              
-            );
+      position: BadgePosition.topEnd(top: 20, end: 5),
+      badgeContent: _newDocumentCount > 0 && !_iconPressed
+          ? Text('$_newDocumentCount',
+              style: const TextStyle(color: Color.fromARGB(255, 223, 214, 214)))
+          : null,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: IconButton(
+          alignment: Alignment.center,
+          icon: const Icon(
+            Icons.notifications,
+            size: 30,
+            color: Colors.green,
+          ),
+          onPressed: () {
             fetchNewDocuments();
           },
+        ),
       ),
     );
   }

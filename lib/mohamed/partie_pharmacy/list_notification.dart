@@ -1,18 +1,16 @@
 
 // ignore_for_file: unused_import
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:medical/mohamed/img_controller.dart';
-
 import 'package:image_network/image_network.dart';
+
+import 'package:medical/mohamed/img_controller.dart';
 
 import 'ordonance_detail.dart';
 import 'ordonnace_model.dart';
-
 
 class Teacher extends StatefulWidget {
   
