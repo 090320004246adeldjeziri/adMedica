@@ -54,7 +54,7 @@ class _CartPageState extends State<CartPage> {
           itemCount: CartManager.cartItems.length,
           itemBuilder: (context, index) {
             return Container(
-              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(18),
                 color: Colors.blue.withOpacity(0.09),
@@ -69,7 +69,7 @@ class _CartPageState extends State<CartPage> {
                     ),
                     child: SizedBox(
                       width: double.infinity,
-                      height: 140, // Fixed height for the image container
+                      height: 120, // Fixed height for the image container
                       child: Image.network(
                         CartManager.cartItems[index].imgUrl[0],
                         fit: BoxFit

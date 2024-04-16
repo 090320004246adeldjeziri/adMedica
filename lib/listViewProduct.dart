@@ -35,6 +35,10 @@ class _ListProductState extends State<ListProduct> {
           final newsItem = widget.newsList[index];
           return GestureDetector(
             onTap: () {
+              // fetchDataFromFirestore();
+              // products[index].sendToFirestore();
+              // productList.sendToFirestore();
+              // Navigate to InfoProduct screen and pass the selected NewsItem
               Navigator.push(
                 context,
                 MaterialPageRoute(

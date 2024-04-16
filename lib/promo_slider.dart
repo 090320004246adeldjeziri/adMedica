@@ -9,6 +9,11 @@ class PromoSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SliderController());
+
+    // Calculate the width based on the screen size
+    final screenWidth = MediaQuery.of(context).size.width;
+    final itemWidth = screenWidth - 10; // Adjust padding and margins
+
     return Padding(
       padding: const EdgeInsets.all(5),
       child: Column(
@@ -24,8 +29,7 @@ class PromoSlider extends StatelessWidget {
             ),
             itemBuilder: (BuildContext context, int index, int realIndex) {
               return Container(
-                // height: 120,
-                width: 350,
+                width: itemWidth,
                 decoration: BoxDecoration(
                   color: Colors.grey,
                   borderRadius: BorderRadius.circular(20),

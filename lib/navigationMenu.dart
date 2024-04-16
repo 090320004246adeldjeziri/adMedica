@@ -9,6 +9,7 @@ import 'package:medical/favorite.dart';
 import 'package:medical/main.dart';
 import 'package:medical/mohamed/partie_pharmacy/list_notification.dart';
 import 'package:medical/searchBar.dart';
+import 'HomePage.dart';
 import 'mohamed/selectImg.dart';
 
 class NavigationMenu extends StatelessWidget {
@@ -78,9 +79,9 @@ class NavigationController extends GetxController {
   final screens = [
     MyHomePage(),
     CartPage(),
-    FavoritesPage(),
+    const FavoritesPage(),
     SelectImg(title: "selectionner l'ordonnance "),
-    AddProductToFirebase(),
+    const AddProductToFirebase(),
     const Teacher(),
   
   ];

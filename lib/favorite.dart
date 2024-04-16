@@ -67,7 +67,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                       child: Image.network(
                         FavoritesManager.favorits[index].imgUrl[0],
                         width: double.infinity,
-                        height: 140, // Fixed height for images
+                        height: 120, // Fixed height for images
                         fit: BoxFit
                             .cover, // Adjust the image inside the container
                       ),

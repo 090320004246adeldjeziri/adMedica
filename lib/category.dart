@@ -1,7 +1,6 @@
-// ignore_for_file: depend_on_referenced_packages
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medical/productCategory.dart';
 
 class CategoryController extends GetxController {
   var selectedIndex = 0.obs;
@@ -15,7 +14,7 @@ class Category extends StatelessWidget {
   final CategoryController categoryController = Get.put(CategoryController());
 
   final List<String> pharmacyCategories = [
-    'Default',
+    
     'Vitamin',
     'Baby',
     'Medical material',
@@ -39,6 +38,8 @@ class Category extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 categoryController.selectCategory(index);
+                // Navigate to the ProductsPage and pass the selected category
+                Get.to(ProductCategory(category: category));
               },
               child: Container(
                 alignment: Alignment.center,
@@ -64,3 +65,5 @@ class Category extends StatelessWidget {
     );
   }
 }
+
+
