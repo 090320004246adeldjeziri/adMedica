@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-class MyTextField extends StatelessWidget {
+class MyPasswordField extends StatelessWidget {
   final String ButtonName;
   final Icon icon;
   final TextEditingController textEditingController;
   final TextInputType serviceType;
-  MyTextField({
-    super.key,
-    required this.ButtonName,
-    required this.icon,
-    required this.textEditingController,
-    required this.serviceType,
-  });
+final Widget? suffixIcon;
+   MyPasswordField(
+      {super.key,
+      required this.ButtonName,
+      required this.icon,
+      required this.textEditingController, required this.serviceType, this.suffixIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +19,10 @@ class MyTextField extends StatelessWidget {
         Expanded(
           child: TextFormField(
             controller: textEditingController,
-            keyboardType: serviceType,
+            keyboardType: serviceType,obscureText: true,
             decoration: InputDecoration(
+              suffixIcon:  suffixIcon,
+              
                 filled: true,
                 hintText: ButtonName,
                 prefixIcon: icon,

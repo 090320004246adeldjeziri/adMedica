@@ -8,16 +8,21 @@ import 'package:medical/navigationMenu.dart';
 import 'package:medical/widgets/auth_widget/fieldtext.dart';
 
 import '../controller/LoginController.dart';
+import '../widgets/auth_widget/passField.dart';
 
 class LoginPage extends StatelessWidget {
   final LoginController loginController = Get.put(LoginController());
 
   LoginPage({Key? key}) : super(key: key);
 
- 
-
   @override
   Widget build(BuildContext context) {
+    void onDateChanged(DateTime selectedDate) {
+      print('Selected date: $selectedDate');
+      // You can perform any actions based on the selected date here
+      // For example, you could update a variable or call another function
+    }
+
     return Scaffold(
       backgroundColor: Colors.blue[50],
       appBar: AppBar(
@@ -48,12 +53,14 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               MyTextField(
-                textEditingController:loginController.email,
+                serviceType: TextInputType.emailAddress,
+                textEditingController: loginController.email,
                 ButtonName: "Email",
                 icon: Icon(Icons.mail),
               ),
               const SizedBox(height: 15),
-              MyTextField(
+              MyPasswordField(
+                serviceType: TextInputType.visiblePassword,
                 textEditingController: loginController.password,
                 ButtonName: "Password",
                 icon: const Icon(Icons.lock),
@@ -69,8 +76,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   onPressed: () {
                     // Perform login action
-                    loginController.login(
-                    );
+                    loginController.login();
                   },
                   child: Text(
                     "Log In",
@@ -109,7 +115,8 @@ class LoginPage extends StatelessWidget {
                     ],
                   ),
                 ),
-              )
+              ),
+            
             ],
           ),
         ),

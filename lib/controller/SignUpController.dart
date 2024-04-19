@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluttertoast/fluttertoast.dart' as flutter_toast;
 import 'package:get/get.dart';
 
 class SignUpController extends GetxController {
@@ -17,12 +17,20 @@ class SignUpController extends GetxController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   final FirebaseAuth auth = FirebaseAuth.instance;
+
   void onSignUp() {
-    print("Name : " + name.text);
-    print("Email : " + email.text);
-    print("Number : " + phone.text);
-    print("Password : " + password.text);
-    createAccount(email.text, password.text);
+    if (!agreementChecked.value) {
+      flutter_toast.Fluttertoast.showToast(
+        msg: "Accept agreement please !",
+        toastLength: flutter_toast.Toast.LENGTH_SHORT,
+        gravity: flutter_toast.ToastGravity.BOTTOM,
+        backgroundColor: Colors.red[400],
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    } else {
+      createAccount(email.text, password.text);
+    }
   }
 
   Future<void> createAccount(String email, String password) async {
@@ -30,29 +38,45 @@ class SignUpController extends GetxController {
       await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       print("Account Created");
-      Fluttertoast.showToast(
+      flutter_toast.Fluttertoast.showToast(
         msg: "Account Created",
+        toastLength: flutter_toast.Toast.LENGTH_SHORT,
+        gravity: flutter_toast.ToastGravity.BOTTOM,
         backgroundColor: Colors.green[600],
+        textColor: Colors.white,
+        fontSize: 16.0,
       );
     } on FirebaseAuthException catch (ex) {
       if (ex.code == "weak-password") {
-        Fluttertoast.showToast(
-          msg: "Week Password",
+        flutter_toast.Fluttertoast.showToast(
+          msg: "Weak Password",
+          toastLength: flutter_toast.Toast.LENGTH_SHORT,
+          gravity: flutter_toast.ToastGravity.BOTTOM,
           backgroundColor: Colors.orange[400],
+          textColor: Colors.white,
+          fontSize: 16.0,
         );
         print("Weak Password");
       } else if (ex.code == "email-already-in-use") {
-        Fluttertoast.showToast(
+        flutter_toast.Fluttertoast.showToast(
           msg: "Email Already exists",
+          toastLength: flutter_toast.Toast.LENGTH_SHORT,
+          gravity: flutter_toast.ToastGravity.BOTTOM,
           backgroundColor: Colors.red[400],
+          textColor: Colors.white,
+          fontSize: 16.0,
         );
         print("Email Already exists Login Please !");
       }
     } catch (ex) {
       print(ex);
-      Fluttertoast.showToast(
+      flutter_toast.Fluttertoast.showToast(
         msg: ex.toString(),
+        toastLength: flutter_toast.Toast.LENGTH_SHORT,
+        gravity: flutter_toast.ToastGravity.BOTTOM,
         backgroundColor: Colors.red[400],
+        textColor: Colors.white,
+        fontSize: 16.0,
       );
     }
   }

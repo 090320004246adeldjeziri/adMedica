@@ -8,6 +8,7 @@ import 'package:medical/widgets/auth_widget/fieldtext.dart';
 
 import '../client/choosepage.dart';
 import '../controller/SignUpController.dart';
+import '../widgets/auth_widget/passField.dart';
 
 class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);
@@ -65,35 +66,42 @@ class SignUpPage extends StatelessWidget {
               const SizedBox(height: 20),
               MyTextField(
                 textEditingController: signUpController.name,
+                serviceType: TextInputType.name,
                 ButtonName: "First Name", // Changed to fieldName
                 icon: Icon(Icons.person),
               ),
               const SizedBox(height: 15),
               MyTextField(
+                serviceType: TextInputType.name,
                 textEditingController: signUpController.surname,
                 ButtonName: "Last Name", // Changed to fieldName
                 icon: Icon(Icons.people),
               ),
               SizedBox(height: 15),
               MyTextField(
+                serviceType: TextInputType.emailAddress,
                 textEditingController: signUpController.email,
                 ButtonName: "Address Mail", // Changed to fieldName
                 icon: Icon(Icons.mail),
               ),
               SizedBox(height: 15),
               MyTextField(
+                serviceType: TextInputType.phone,
                 textEditingController: signUpController.phone,
                 ButtonName: "Phone Number", // Changed to fieldName
                 icon: Icon(Icons.phone),
               ),
               const SizedBox(height: 15),
-              MyTextField(
+              MyPasswordField(
+                serviceType: TextInputType.visiblePassword,
                 textEditingController: signUpController.password,
                 ButtonName: "Password", // Changed to fieldName
                 icon: const Icon(Icons.lock),
               ),
               const SizedBox(height: 15),
-              MyTextField(
+              MyPasswordField(
+                                serviceType: TextInputType.visiblePassword,
+
                 textEditingController: signUpController.confirmpassword,
                 ButtonName: "Confirm Password", // Changed to fieldName
                 icon: const Icon(Icons.lock),
