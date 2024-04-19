@@ -3,10 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:medical/HomePage.dart';
 import 'package:medical/promo_slider.dart';
 import 'News.dart';
 import 'package:medical/searchBar.dart';
 import 'package:medical/title.dart';
+import 'auth/sign.dart';
 import 'category.dart';
 import 'controller/ProductController.dart';
 import 'firebase_options.dart';
@@ -37,10 +39,10 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return  GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Medicament',
-      home: NavigationMenu(), // MyDashBoard(),
+      home: SignUpPage(), // MyDashBoard(),
     );
   }
 }
