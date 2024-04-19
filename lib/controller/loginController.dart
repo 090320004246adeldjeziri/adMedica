@@ -1,46 +1,41 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:fluttertoast/fluttertoast.dart' as flutter_toast;
 
 import '../navigationMenu.dart';
 
 class LoginController extends GetxController {
-  var email = TextEditingController();
-  var password = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  void login() {
+    SignIn();
+  }
 
-  Future<void> login() async {
+  Future<void> SignIn() async {
     try {
       await _auth.signInWithEmailAndPassword(
-        email: email.text.trim(),
-        password: password.text.trim(),
+        email: email.text,
+        password: password.text,
       );
-
+      print("Login");
       Get.offAll(() => NavigationMenu());
-    } catch (e) {
-      print("Error logging in: $e");
-      displayErrorSnackbar("Error logging in: $e");
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        flutter_toast.Fluttertoast.showToast(msg: "Email doesn't exist !");
+      } else if (e.code == "wrong-password") {
+        flutter_toast.Fluttertoast.showToast(msg: "Wrong Password !");
+      }
     }
-  }
 
-  void displayErrorSnackbar(String message) {
-    final snackBar = SnackBar(
-      content: Text(
-        message,
-        style: TextStyle(color: Colors.white),
-      ),
-      backgroundColor: Colors.red,
-    );
-    ScaffoldMessenger.of(Get.context!).showSnackBar(snackBar);
-  }
-
-  @override
-  void onClose() {
-    email.dispose();
-    password.dispose();
-    super.onClose();
+    @override
+    void onClose() {
+      email.dispose();
+      password.dispose();
+      super.onClose();
+    }
   }
 }
