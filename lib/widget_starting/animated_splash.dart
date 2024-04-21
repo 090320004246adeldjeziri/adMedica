@@ -21,25 +21,17 @@ class _SplashScreenState extends State<SplashScreen>
     // Initialize the animation controller
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 5),
     );
+
+    // Generate random colors excluding green for the animation
+    _colorAnimation = ColorTween(
+      begin: _generateRandomColorExcludingGreen(),
+      end: _generateRandomColorExcludingGreen(),
+    ).animate(_animationController);
 
     // Start the animation
     _animationController.forward();
-
-    // Create a list of colors excluding green
-    List<Color> colors = _generateColorsExcludingGreen();
-
-    _colorAnimation = ColorTweenSequence(
-      // Generate ColorTweenSequence using the list of colors
-      List.generate(
-        colors.length - 1,
-        (index) => ColorTween(
-          begin: colors[index],
-          end: colors[index + 1],
-        ),
-      ),
-    ).animate(_animationController);
 
     // Navigate to the next screen after the animation is complete
     _animationController.addStatusListener((status) {
@@ -79,18 +71,17 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 
-  List<Color> _generateColorsExcludingGreen() {
-    // Generate a list of all possible colors excluding green
-    List<Color> colors = [];
-    for (int r = 0; r <= 255; r++) {
-      for (int g = 0; g <= 255; g++) {
-        for (int b = 0; b <= 255; b++) {
-          if (g != 255) { // Exclude green
-            colors.add(Color.fromRGBO(r, g, b, 1));
-          }
-        }
-      }
-    }
-    return colors;
+  Color _generateRandomColorExcludingGreen() {
+    // Generate a random color excluding green
+    Color color;
+    do {
+      color = Color.fromRGBO(
+        Random().nextInt(256),
+        Random().nextInt(256), 
+        Random().nextInt(256), 
+        255, // Alpha (opacity)
+      );
+    } while (color == Colors.green);
+    return color;
   }
 }

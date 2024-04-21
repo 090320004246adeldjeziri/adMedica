@@ -17,76 +17,72 @@ class _NotificationIconState extends State<NotificationIcon> {
   @override
   void initState() {
     super.initState();
-    //listenToDocumentChanges();
+   listenToDocumentChanges();
     fetchNewDocuments();
   }
 
-  // void listenToDocumentChanges() {
-  //   FirebaseFirestore.instance
-  //       .collection('messages')
-  //       .snapshots()
-  //       .listen((snapshot) {
-  //     if (_iconPressed) {
-  //       setState(() {
-  //         _newDocumentCount;
-  //       });
-  //     } else if (!_initialCountLoaded) {
-  //       // Comptez le nombre initial de documents si l'icône n'a jamais été cliquée
-  //       setState(() {
-  //         _newDocumentCount = snapshot.docChanges.length;
-  //         _initialCountLoaded = true;
-  //       });
-  //     } else {
-  //       snapshot.docChanges.forEach((change) {
-  //         if (change.type == DocumentChangeType.added) {
-  //           setState(() {
-  //             _newDocumentCount++;
-  //           });
-  //         }
-  //         //else if (change.type == DocumentChangeType.)
-  //       });
-  //     }
-  //   });
-  // }
 
-  void fetchNewDocuments() {
+void fetchNewDocuments() {
+  setState(() {
+    _initialCountLoaded = true;
+  });
+
+  // Marquer les documents comme lus dans Firebase Firestore
+  FirebaseFirestore.instance
+      .collection('messages')
+      .where('isRead', isEqualTo: false) // Sélectionnez uniquement les documents non lus
+      .get()
+      .then((querySnapshot) {
     setState(() {
       _initialCountLoaded = true;
+      _newDocumentCount = querySnapshot.size;
     });
+  });
+}
 
-    // Marquer les documents comme lus dans Firebase Firestore
+void fetchNewDocuments2() {
+  setState(() {
+    _iconPressed = true;
+  });
+  
+  // Marquer les documents comme lus dans Firebase Firestore
+  FirebaseFirestore.instance
+      .collection('messages')
+      .where('isRead', isEqualTo: false) // Sélectionnez uniquement les documents non lus
+      .get()
+      .then((querySnapshot) {
+    print(querySnapshot.size);
+    querySnapshot.docs.forEach((doc) {
+      doc.reference.update({'isRead': true});
+      // Mettre à jour le champ isRead à true
+    });
+  });
+
+
+
+  // Add a snapshot listener to listen for real-time updates in the 'messages' collection
+  FirebaseFirestore.instance
+      .collection('messages')
+      .where('isRead', isEqualTo: false)
+      .snapshots()
+      .listen((querySnapshot) {
+    setState(() {
+      _newDocumentCount = querySnapshot.size;
+    });
+  });
+}
+   void listenToDocumentChanges() {
     FirebaseFirestore.instance
         .collection('messages')
-        .where('isRead',
-            isEqualTo: false) // Sélectionnez uniquement les documents non lus
-        .get()
-        .then((querySnapshot) {
+        .where('isRead', isEqualTo: false)
+        .snapshots()
+        .listen((querySnapshot) {
       setState(() {
-        _initialCountLoaded = true;
         _newDocumentCount = querySnapshot.size;
       });
     });
   }
 
-  void fetchNewDocuments2() {
-    setState(() {
-      _iconPressed = true;
-    });
-
-    // Marquer les documents comme lus dans Firebase Firestore
-    FirebaseFirestore.instance
-        .collection('messages')
-        .where('isRead',
-            isEqualTo: false) // Sélectionnez uniquement les documents non lus
-        .get()
-        .then((querySnapshot) {
-      print(querySnapshot.size);
-      querySnapshot.docs.forEach((doc) {
-        doc.reference.update({'isRead': true});
-        // Mettre à jour le champ isRead à true
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
