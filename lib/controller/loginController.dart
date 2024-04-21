@@ -15,27 +15,37 @@ class LoginController extends GetxController {
     SignIn();
   }
 
+  void PasswordReset() {
+    _auth.sendPasswordResetEmail(email: email.text);
+    flutter_toast.Fluttertoast.showToast(
+        msg:
+            "Verifer Your Boite Mail , We send You message to reset your Password ");
+  }
+
   Future<void> SignIn() async {
     try {
       await _auth.signInWithEmailAndPassword(
         email: email.text,
         password: password.text,
       );
-      print("Login");
-      Get.offAll(() => NavigationMenu());
+      // If the user is successfully signed in, go to Na page
+      flutter_toast.Fluttertoast.showToast(
+          msg: 'Login Successful !',
+          backgroundColor: Colors.green[600],
+          fontSize: 17);
+      Get.offAll(() => const NavigationMenu());
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         flutter_toast.Fluttertoast.showToast(msg: "Email doesn't exist !");
       } else if (e.code == "wrong-password") {
-        flutter_toast.Fluttertoast.showToast(msg: "Wrong Password !");
+        flutter_toast.Fluttertoast.showToast(
+          msg: "Wrong Password !",
+          toastLength: flutter_toast.Toast.LENGTH_SHORT,
+          backgroundColor: Colors.red[600],
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
       }
-    }
-
-    @override
-    void onClose() {
-      email.dispose();
-      password.dispose();
-      super.onClose();
     }
   }
 }

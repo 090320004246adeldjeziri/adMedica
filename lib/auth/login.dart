@@ -17,11 +17,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void onDateChanged(DateTime selectedDate) {
-      print('Selected date: $selectedDate');
-      // You can perform any actions based on the selected date here
-      // For example, you could update a variable or call another function
-    }
+  
 
     return Scaffold(
       backgroundColor: Colors.blue[50],
@@ -86,6 +82,33 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
+               SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Forgot Password?",
+                    style: GoogleFonts.inter(
+                      color: Colors.black,
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(width: 5),
+                  GestureDetector(
+                    onTap: () => loginController.PasswordReset(),
+                    child: Text(
+                      "Reset Here",
+                      style: GoogleFonts.inter(
+                        color: Colors.green,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 20,

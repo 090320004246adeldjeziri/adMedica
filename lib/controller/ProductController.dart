@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 
 import '../News.dart';
@@ -27,13 +28,20 @@ class ProductController extends GetxController {
     }
   }
 
-  // Method to fetch all products from Firestore
-  // Future<void> fetchAllProducts() async {
-  //   try {
-  //     final snapshot =
-  //         await FirebaseFirestore.instance.collection('items').get();
+  Future<void> fetchAllProducts() async {
+    try {
+      final snapshot =
+          await FirebaseFirestore.instance.collection("items").get();
+      products.clear();
+      for (var doc in snapshot.docs) {
+        var data = doc.data() as Map<String, dynamic>;
 
-  //     products.clear();
+        products.add(CabItem.fromJson(data));
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   //     for (var doc in snapshot.docs) {
   //       var data = doc.data() as Map<String, dynamic>;

@@ -29,7 +29,12 @@ class _AddProductToFirebaseState extends State<AddProductToFirebase> {
   final TextEditingController _numberController = TextEditingController();
 
   String? _selectedCategory;
-  final List<String> _categoryOptions = ['medical', 'vitamin', 'paramedical'];
+  final List<String> _categoryOptions = [
+    'Baby',
+    'Vitamin',
+    'Medical material',
+    'cleaning'
+  ];
 
   @override
   Widget build(BuildContext context) {

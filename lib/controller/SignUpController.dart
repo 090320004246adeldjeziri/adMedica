@@ -1,7 +1,10 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart' as flutter_toast;
 import 'package:get/get.dart';
+
+import '../auth/login.dart';
 
 class SignUpController extends GetxController {
   var agreementChecked = false.obs;
@@ -34,16 +37,16 @@ class SignUpController extends GetxController {
   }
 
   Future<void> createAccount(String email, String password) async {
-    if (password != confirmpassword) {
-      flutter_toast.Fluttertoast.showToast(
-        msg: "Password Don't Match",
-        toastLength: flutter_toast.Toast.LENGTH_SHORT,
-        gravity: flutter_toast.ToastGravity.BOTTOM,
-        backgroundColor: Colors.green[600],
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-    } else {
+    // if (equal(password,confirmpassword)) {
+    //   flutter_toast.Fluttertoast.showToast(
+    //     msg: "Password Don't Match",
+    //     toastLength: flutter_toast.Toast.LENGTH_SHORT,
+    //     gravity: flutter_toast.ToastGravity.BOTTOM,
+    //     backgroundColor: Colors.green[600],
+    //     textColor: Colors.white,
+    //     fontSize: 16.0,
+    //   );
+    // } else {
       try {
         await auth.createUserWithEmailAndPassword(
             email: email, password: password);
@@ -56,6 +59,7 @@ class SignUpController extends GetxController {
           textColor: Colors.white,
           fontSize: 16.0,
         );
+        Get.offAll(() => LoginPage());
       } on FirebaseAuthException catch (ex) {
         if (ex.code == "weak-password") {
           flutter_toast.Fluttertoast.showToast(
@@ -90,5 +94,5 @@ class SignUpController extends GetxController {
         );
       }
     }
-  }
+  
 }

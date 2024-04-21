@@ -15,12 +15,8 @@ class ChooseRolePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final SignUpController signUpController = Get.put(SignUpController());
 
-    // List of options for the user to choose from
-    List<String> userTypeOptions = ['Pharmacy', 'Client'];
-
-    // Variable to hold the selected user type
+    List<String> userTypeOptions = ['Pharmacy', 'Client','Administration'];
     String selectedUserType = userTypeOptions.first;
-
     return Scaffold(
       backgroundColor: Colors.blue[50],
       appBar: AppBar(
@@ -62,11 +58,6 @@ class ChooseRolePage extends StatelessWidget {
                 height: 200,
                 width: double.infinity,
                 child: Image.network(
-                  loadingBuilder: (context, child, loadingProgress) =>
-                      CircularProgressIndicator(
-                    backgroundColor: Colors.grey,
-                    value: 5,
-                  ),
                   'https://th.bing.com/th/id/R.b3a46e6760afe03b45f87b841402ea2b?rik=pGG3sg9kQ6loew&pid=ImgRaw',
                   fit: BoxFit.cover,
                 ),

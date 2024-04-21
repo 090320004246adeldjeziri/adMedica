@@ -19,30 +19,25 @@ import 'package:device_preview/device_preview.dart';
 import 'navigationMenu.dart';
 import 'searchScreen.dart';
 import 'package:medical/mohamed/iconNotif.dart';
+import 'package:medical/widget_starting/animated_splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // ProductController().fetchAllProducts(); // Call fetchDataFromFirestore from ProductController
   fetchDataFromFirestore();
   runApp(const MyApp());
-  //   DevicePreview(
-  //     enabled: true,
-  //     builder: (context) => const MyApp(),
-  //   ),
-  // );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return  GetMaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Medicament',
-      home: SignUpPage(), // MyDashBoard(),
+      home:SplashScreen(),
     );
   }
 }
