@@ -43,7 +43,7 @@ class LoginPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(signUpController.role.value,style:const TextStyle(color: Colors.red,)),
+    
               Text(
                 "Welcome Back!",
                 style: GoogleFonts.lexend(fontSize: 33),

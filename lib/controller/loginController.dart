@@ -1,8 +1,12 @@
+// ignore_for_file: unused_import, depend_on_referenced_packages
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart' as flutter_toast;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:medical/addProduct.dart';
+import 'package:medical/mohamed/partie_pharmacy/addProductNotif.dart';
 import 'package:medical/mohamed/selectImg.dart';
 
 import '../mohamed/partie_pharmacy/ordonance_detail.dart';
@@ -64,8 +68,8 @@ class LoginController extends GetxController {
       if (documentSnapshot.exists) {
         if (documentSnapshot.get('rool') == "Client") {
           Get.offAll(() => const NavigationMenu());
-        }else {
-           Get.offAll(() => AgrandirImagePage(imageUrl: '',) );
+        }else if (documentSnapshot.get('rool') == "Pharmacy") {
+           Get.offAll(() => const AddProductNotif());
    
         }
       } else {

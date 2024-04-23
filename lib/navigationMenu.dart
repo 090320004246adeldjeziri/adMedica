@@ -82,7 +82,7 @@ class NavigationController extends GetxController {
     const FavoritesPage(),
     SelectImg(title: "selectionner l'ordonnance "),
     const AddProductToFirebase(),
-    const Teacher(),
+    const ListOrdonnace(),
   
   ];
 }

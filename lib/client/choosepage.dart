@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, depend_on_referenced_packages
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +23,7 @@ class _ChooseRolePageState extends State<ChooseRolePage> {
   @override
   Widget build(BuildContext context) {
     final SignUpController signUpController = Get.put(SignUpController());
-    List<String> userTypeOptions = ['Pharmacy', 'Client', 'Administration'];
+    List<String> userTypeOptions = ['Pharmacy', 'Client', ];
 
     return Scaffold(
       backgroundColor: Colors.blue[50],
@@ -63,8 +65,9 @@ class _ChooseRolePageState extends State<ChooseRolePage> {
               SizedBox(
                 height: 200,
                 width: double.infinity,
-                child: Image.network(
-                  'https://th.bing.com/th/id/R.b3a46e6760afe03b45f87b841402ea2b?rik=pGG3sg9kQ6loew&pid=ImgRaw',
+                child: Image.asset(
+              'assets/images/dawa.png',
+                  
                   fit: BoxFit.cover,
                 ),
               ),

@@ -70,6 +70,7 @@ Future<void> uploadImageAndAddToFirestore(String imagePath) async {
       await FirebaseFirestore.instance.collection('photo').add({
         'image_url': imageUrl,
         'timestamp': FieldValue.serverTimestamp(),
+        'isRead':false,
       });
       print('Image URL added to Firestore');
     } catch (e) {
