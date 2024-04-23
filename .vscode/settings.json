@@ -3,5 +3,6 @@
         "dawa",
         "Firestore",
         "Fluttertoast"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

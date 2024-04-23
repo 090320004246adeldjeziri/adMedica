@@ -1,9 +1,12 @@
+// ignore_for_file: unused_import, depend_on_referenced_packages, unnecessary_import
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medical/auth/sign.dart';
+import 'package:medical/controller/SignUpController.dart';
 import 'package:medical/navigationMenu.dart';
 import 'package:medical/widgets/auth_widget/fieldtext.dart';
 
@@ -12,6 +15,7 @@ import '../widgets/auth_widget/passField.dart';
 
 class LoginPage extends StatelessWidget {
   final LoginController loginController = Get.put(LoginController());
+  final SignUpController signUpController = Get.put(SignUpController());
 
   LoginPage({Key? key}) : super(key: key);
 
@@ -23,7 +27,7 @@ class LoginPage extends StatelessWidget {
       backgroundColor: Colors.blue[50],
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(226, 239, 247, 1),
+        backgroundColor: const Color.fromRGBO(226, 239, 247, 1),
         title: Text(
           "Log In",
           style: GoogleFonts.lexend(
@@ -39,6 +43,7 @@ class LoginPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(signUpController.role.value,style:const TextStyle(color: Colors.red,)),
               Text(
                 "Welcome Back!",
                 style: GoogleFonts.lexend(fontSize: 33),
@@ -50,9 +55,10 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 20),
               MyTextField(
                 serviceType: TextInputType.emailAddress,
-                textEditingController: loginController.email,
+                textEditingController: 
+                   loginController.email,
                 ButtonName: "Email",
-                icon: Icon(Icons.mail),
+                icon: const Icon(Icons.mail),
               ),
               const SizedBox(height: 15),
               MyPasswordField(
@@ -83,7 +89,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
-               SizedBox(
+               const SizedBox(
                 height: 20,
               ),
               Row(
@@ -96,7 +102,7 @@ class LoginPage extends StatelessWidget {
                       fontSize: 14,
                     ),
                   ),
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                   GestureDetector(
                     onTap: () => loginController.PasswordReset(),
                     child: Text(
@@ -110,7 +116,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Center(
@@ -132,7 +138,7 @@ class LoginPage extends StatelessWidget {
                         // Add navigation to signup page
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Get.to(() => SignUpPage());
+                            Get.to(() => SignUpPage(role:signUpController.role.value,));
                           },
                       ),
                     ],
