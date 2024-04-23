@@ -27,10 +27,9 @@ void fetchNewDocuments() {
     _initialCountLoaded = true;
   });
 
-  // Marquer les documents comme lus dans Firebase Firestore
   FirebaseFirestore.instance
       .collection('messages')
-      .where('isRead', isEqualTo: false) // Sélectionnez uniquement les documents non lus
+      .where('isRead', isEqualTo: false) 
       .get()
       .then((querySnapshot) {
     setState(() {

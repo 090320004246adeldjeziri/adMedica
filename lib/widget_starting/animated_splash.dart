@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen>
     // Initialize the animation controller
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 5),
+      duration: const Duration(seconds: 10),
     );
 
     // Generate random colors excluding green for the animation
@@ -62,8 +62,8 @@ class _SplashScreenState extends State<SplashScreen>
             child: Image.asset(
               'assets/images/dawa.png',
               fit: BoxFit.contain,
-              width: 180,
-              height: 180,
+              width: 200,
+              height: 200,
             ),
           ),
         );

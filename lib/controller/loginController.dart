@@ -10,7 +10,6 @@ class LoginController extends GetxController {
   TextEditingController password = TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   void login() {
     SignIn();
   }
@@ -22,30 +21,25 @@ class LoginController extends GetxController {
             "Verifer Your Boite Mail , We send You message to reset your Password ");
   }
 
-  Future<void> SignIn() async {
+  void SignIn() async {
     try {
       await _auth.signInWithEmailAndPassword(
         email: email.text,
         password: password.text,
       );
-      // If the user is successfully signed in, go to Na page
+      // If the user is successfully signed in, go to NavigationMenu page
       flutter_toast.Fluttertoast.showToast(
           msg: 'Login Successful !',
           backgroundColor: Colors.green[600],
           fontSize: 17);
       Get.offAll(() => const NavigationMenu());
     } on FirebaseAuthException catch (e) {
-      if (e.code == "user-not-found") {
-        flutter_toast.Fluttertoast.showToast(msg: "Email doesn't exist !");
-      } else if (e.code == "wrong-password") {
-        flutter_toast.Fluttertoast.showToast(
-          msg: "Wrong Password !",
-          toastLength: flutter_toast.Toast.LENGTH_SHORT,
-          backgroundColor: Colors.red[600],
-          textColor: Colors.black,
-          fontSize: 16.0,
-        );
-      }
+  if (e.code == 'user-not-found') {
+    print('No user found for that email.');
+  } else if (e.code == 'wrong-password') {
+    print('Wrong password provided for that user.');
+  }
+
     }
   }
 }

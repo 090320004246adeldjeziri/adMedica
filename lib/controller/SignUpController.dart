@@ -37,16 +37,7 @@ class SignUpController extends GetxController {
   }
 
   Future<void> createAccount(String email, String password) async {
-    // if (equal(password,confirmpassword)) {
-    //   flutter_toast.Fluttertoast.showToast(
-    //     msg: "Password Don't Match",
-    //     toastLength: flutter_toast.Toast.LENGTH_SHORT,
-    //     gravity: flutter_toast.ToastGravity.BOTTOM,
-    //     backgroundColor: Colors.green[600],
-    //     textColor: Colors.white,
-    //     fontSize: 16.0,
-    //   );
-    // } else {
+  
       try {
         await auth.createUserWithEmailAndPassword(
             email: email, password: password);
