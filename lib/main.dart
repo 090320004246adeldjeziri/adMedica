@@ -37,7 +37,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Medicament',
-      home:SplashScreen(),
+     home:SplashScreen(),
+    
     );
   }
 }

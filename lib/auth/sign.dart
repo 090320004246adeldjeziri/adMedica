@@ -11,7 +11,8 @@ import '../controller/SignUpController.dart';
 import '../widgets/auth_widget/passField.dart';
 
 class SignUpPage extends StatelessWidget {
-  SignUpPage({Key? key}) : super(key: key);
+ String role;
+  SignUpPage({Key? key, required this.role}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:medical/auth/login.dart';
+import 'package:medical/client/choosepage.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -38,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (status == AnimationStatus.completed) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => LoginPage()),
+          MaterialPageRoute(builder: (context) => ChooseRolePage()),
         );
       }
     });

@@ -2,21 +2,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:medical/auth/login.dart';
+import 'package:medical/auth/sign.dart';
 import 'package:medical/navigationMenu.dart';
 import 'package:medical/widgets/auth_widget/fieldtext.dart';
 
 import '../controller/SignUpController.dart';
 
-class ChooseRolePage extends StatelessWidget {
+class ChooseRolePage extends StatefulWidget {
   ChooseRolePage({Key? key}) : super(key: key);
+
+  @override
+  State<ChooseRolePage> createState() => _ChooseRolePageState();
+}
+
+class _ChooseRolePageState extends State<ChooseRolePage> {
+  String? selectedUserType;
 
   @override
   Widget build(BuildContext context) {
     final SignUpController signUpController = Get.put(SignUpController());
+    List<String> userTypeOptions = ['Pharmacy', 'Client', 'Administration'];
 
-    List<String> userTypeOptions = ['Pharmacy', 'Client','Administration'];
-    String selectedUserType = userTypeOptions.first;
     return Scaffold(
       backgroundColor: Colors.blue[50],
       appBar: AppBar(
@@ -71,16 +77,18 @@ class ChooseRolePage extends StatelessWidget {
               DropdownButton<String>(
                 value: selectedUserType,
                 onChanged: (String? newValue) {
-                  if (newValue != null) {
+                  setState(() {
                     selectedUserType = newValue;
-                  }
+                  });
                 },
-                items: userTypeOptions.map((String userType) {
-                  return DropdownMenuItem<String>(
-                    value: userType,
-                    child: Text(userType),
-                  );
-                }).toList(),
+                items: userTypeOptions
+                    .map(
+                      (String userType) => DropdownMenuItem<String>(
+                        value: userType,
+                        child: Text(userType),
+                      ),
+                    )
+                    .toList(),
               ),
               const SizedBox(height: 20),
               SizedBox(
@@ -92,10 +100,9 @@ class ChooseRolePage extends StatelessWidget {
                     backgroundColor: Colors.green,
                   ),
                   onPressed: () {
-                    if (selectedUserType == 'Pharmacy') {
-                      // Navigate to pharmacy registration page
-                    } else {
-                      // Navigate to client registration page
+                    if (selectedUserType != null) {
+                      Get.to(SignUpPage(role: selectedUserType!));
+                      signUpController.role.value = selectedUserType!;
                     }
                   },
                   child: Text(
