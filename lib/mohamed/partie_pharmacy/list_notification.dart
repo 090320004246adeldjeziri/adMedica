@@ -1,5 +1,5 @@
 
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, depend_on_referenced_packages
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,16 +12,18 @@ import 'package:medical/mohamed/img_controller.dart';
 import 'ordonance_detail.dart';
 import 'ordonnace_model.dart';
 
-class Teacher extends StatefulWidget {
+class ListOrdonnace extends StatefulWidget {
   
-  const Teacher({Key? key}) : super(key: key);
+  const ListOrdonnace({Key? key}) : super(key: key);
 
   @override
-  State<Teacher> createState() => _TeacherState();
+  State<ListOrdonnace> createState() => _ListOrdonnaceState();
 }
 
-class _TeacherState extends State<Teacher> {
-    final ImageController _imageController = Get.find<ImageController>();
+class _ListOrdonnaceState extends State<ListOrdonnace> {
+    // final ImageController _imageController = Get.find<ImageController>();
+        final ImageController _imageController = Get.put(ImageController());
+
   List<Ordonoces> ordonoces = [];
 
   Future<void> getFirestoreCollection() async {

@@ -8,6 +8,7 @@ import 'package:medical/promo_slider.dart';
 import 'News.dart';
 import 'package:medical/searchBar.dart';
 import 'package:medical/title.dart';
+import 'auth/firstPage.dart';
 import 'auth/sign.dart';
 import 'category.dart';
 import 'controller/ProductController.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Medicament',
      home:SplashScreen(),
+    // :home: FirstPage(),
     
     );
   }

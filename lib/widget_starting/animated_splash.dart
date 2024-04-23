@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:medical/auth/firstPage.dart';
 import 'package:medical/auth/login.dart';
 import 'package:medical/client/choosepage.dart';
 
@@ -22,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen>
     // Initialize the animation controller
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 10),
+      duration: const Duration(seconds: 5),
     );
 
     // Generate random colors excluding green for the animation
@@ -39,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (status == AnimationStatus.completed) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ChooseRolePage()),
+          MaterialPageRoute(builder: (context) => const FirstPage()),
         );
       }
     });
@@ -63,8 +64,8 @@ class _SplashScreenState extends State<SplashScreen>
             child: Image.asset(
               'assets/images/dawa.png',
               fit: BoxFit.contain,
-              width: 200,
-              height: 200,
+              width: 300,
+              height: 300,
             ),
           ),
         );
