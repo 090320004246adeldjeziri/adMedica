@@ -20,7 +20,6 @@ import 'package:device_preview/device_preview.dart';
 import 'navigationMenu.dart';
 import 'searchScreen.dart';
 import 'package:medical/mohamed/iconNotif.dart';
-import 'package:medical/widget_starting/animated_splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,10 +34,10 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Medicament',
-     home:SplashScreen(),
+     home:FirstPage(),
     // :home: FirstPage(),
     
     );
