@@ -37,12 +37,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
+                     SizedBox(
                       width: 38,
                       height: 38,
                       child: CircleAvatar(
                         backgroundColor:
-                            Colors.blueAccent.shade400.withOpacity(0.8),
+                            Colors.greenAccent,
                         child: const Icon(
                           size: 25,
                           Icons.person_outline_outlined,
@@ -58,13 +58,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   const SizedBox(
                     height: 18,
                   ),
-                  Text("Hi, Adel !",
+                  Text("Hi, Sir !",
                       style: GoogleFonts.lexend(
                           fontSize: 14,
+                          fontWeight: FontWeight.w600,
                           color: const Color.fromRGBO(16, 130, 96, 1))),
-                  Text("Good Morning!",
+                  Text("Good Morning",
                       style: GoogleFonts.poppins(
                         fontSize: 12,
+                        fontWeight: FontWeight.w600,
                         color: const Color.fromARGB(150, 76, 75, 1),
                       )),
                 ])
@@ -85,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: const Icon(
                   CupertinoIcons.search,
                   color: Colors.green,
-                  size: 30,
+                  size: 25,
                 ),
               ),
             )
@@ -95,30 +97,11 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.only(top: 15),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-//             Padding(
-//   padding: const EdgeInsets.only(top: 12, left: 20, right: 20, bottom: 0),
-//   child: Center(
-//     child: GestureDetector(
-//       onTap: () {
-//         Navigator.push(
-//           context,
-//           MaterialPageRoute(
-//             builder: (context) => SearchScreen(products: products),
-//           ),
-//         );
-//       },
-//       child: const SearchBar(),
-//     ),
-//   ),
-// ),
-//             const SizedBox(
-//               height: 20,
-//             ),
+//
             const PromoSlider(),
             const Padding(
               padding: EdgeInsets.only(left: 30, right: 10),
-              child: title("Categories",
-                  ""),
+              child: title("Categories", ""),
             ),
 
             const SizedBox(height: 20),
@@ -136,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 10,
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left: 8.0, right: 8),
               child: ListProduct(
                 newsList: products,
               ),

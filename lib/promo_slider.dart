@@ -31,15 +31,17 @@ class PromoSlider extends StatelessWidget {
               return Container(
                 width: itemWidth,
                 decoration: BoxDecoration(
-                  color: Colors.grey,
+                  color: Colors.transparent,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(products[index].imgUrl.first),
-                  ),
+                      fit: BoxFit.fitHeight,
+                      // image: NetworkImage(products[index].imgUrl.first),
+                      image: AssetImage(
+                        "assets/images/img.png",
+                      )),
                 ),
               );
             },

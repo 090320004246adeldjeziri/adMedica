@@ -35,10 +35,7 @@ class _ListProductState extends State<ListProduct> {
           final newsItem = widget.newsList[index];
           return GestureDetector(
             onTap: () {
-              // fetchDataFromFirestore();
-              // products[index].sendToFirestore();
-              // productList.sendToFirestore();
-              // Navigate to InfoProduct screen and pass the selected NewsItem
+              
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -96,7 +93,7 @@ class _ListProductState extends State<ListProduct> {
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
-                              "${products[index].prix}DA",
+                              "${products[index].prix} DA",
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,

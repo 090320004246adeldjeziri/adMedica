@@ -28,11 +28,10 @@ class SelectImg extends StatelessWidget {
               CustomeLottieImage(
                 height: 260,
                 path: AppImages.select,
-                speed:0.1,
-
+                speed: 0.1,
               ),
               const CustomeTitle(
-                title: "Choose Image",
+                title: "Select Ordonance",
                 size: 40,
               ),
               CustomeBodyText(body_: AppBodyText.choosePhoto),
@@ -43,11 +42,6 @@ class SelectImg extends StatelessWidget {
                     buttonIcon: Icons.photo,
                     buttonTitle: "Gallery",
                     isGallery: true,
-
-                    // function: () {
-                    //   return controller
-                    //       .afficheImage(ImageSource.gallery);
-                    // },
                   ),
                   const SizedBox(
                     height: 20,
@@ -56,10 +50,6 @@ class SelectImg extends StatelessWidget {
                     buttonIcon: Icons.camera_alt_outlined,
                     buttonTitle: "Camera",
                     isGallery: false,
-                    // function: () async {
-                    //   return controller
-                    //       .afficheImage(ImageSource.camera);
-                    // },
                   )
                 ],
               ),

@@ -10,6 +10,7 @@ import 'package:medical/main.dart';
 import 'package:medical/mohamed/partie_pharmacy/list_notification.dart';
 import 'package:medical/searchBar.dart';
 import 'HomePage.dart';
+import 'client/SettingPage.dart';
 import 'mohamed/selectImg.dart';
 
 class NavigationMenu extends StatelessWidget {
@@ -29,7 +30,7 @@ class NavigationMenu extends StatelessWidget {
           onDestinationSelected: (index) =>
               controller.selectedIndex.value = index,
           selectedIndex: controller.selectedIndex.value,
-          destinations: const [
+          destinations: [
             NavigationDestination(
                 icon: Icon(CupertinoIcons.home, size: 26),
                 label: "Products",
@@ -48,23 +49,12 @@ class NavigationMenu extends StatelessWidget {
                 label: "Favorites"),
             NavigationDestination(
                 icon: Icon(
-                  CupertinoIcons.scope,
+                  Icons.send,
                   size: 26,
                 ),
-                label: "Pharmacy"),
+                label: "Ordonance"),
             NavigationDestination(
-                icon: Icon(
-                  CupertinoIcons.add_circled,
-                  size: 26,
-                ),
-                label: "Add Product"),
-                  NavigationDestination(
-                icon: Icon(
-                  CupertinoIcons.list_bullet,
-                  size: 26,
-                ),
-                label: "ordonnanc"),
-           
+                label: "Setting", icon: Icon(Icons.settings, size: 26))
           ],
         ),
       ),
@@ -80,9 +70,7 @@ class NavigationController extends GetxController {
     MyHomePage(),
     CartPage(),
     const FavoritesPage(),
-    SelectImg(title: "selectionner l'ordonnance "),
-    const AddProductToFirebase(),
-    const ListOrdonnace(),
-  
+    SelectImg(title: "Select Ordonnance Image! "),
+    Setting()
   ];
 }

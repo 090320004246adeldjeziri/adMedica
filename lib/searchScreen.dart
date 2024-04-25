@@ -33,7 +33,6 @@ class _SearchScreenState extends State<SearchScreen> {
       filteredProducts = widget.products
           .where((product) =>
               product.productName.toLowerCase().contains(query.toLowerCase()) ||
-              product.description.toLowerCase().contains(query.toLowerCase()) ||
               product.seller.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
@@ -44,9 +43,8 @@ class _SearchScreenState extends State<SearchScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(226, 239, 247, 1), // Light blue color
-          toolbarHeight: MediaQuery.of(context).size.height *
-              0.065, // 6.5% of screen height
+          backgroundColor: const Color.fromRGBO(226, 239, 247, 1),
+          toolbarHeight: MediaQuery.of(context).size.height * 0.065,
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back,
@@ -61,8 +59,7 @@ class _SearchScreenState extends State<SearchScreen> {
             child: Padding(
               padding: const EdgeInsets.only(right: 2.0, top: 8, bottom: 8),
               child: SizedBox(
-                height: MediaQuery.of(context).size.height *
-                    0.05, // 5% of screen height
+                height: MediaQuery.of(context).size.height * 0.05,
                 child: TextField(
                   enableSuggestions: true,
                   textAlign: TextAlign.left,
@@ -70,7 +67,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   onChanged: _filterProducts,
                   decoration: InputDecoration(
                     hintText: 'Find Your Product !',
-                    contentPadding: EdgeInsets.fromLTRB(48, 5, 24, 14),
+                    contentPadding: const EdgeInsets.fromLTRB(48, 5, 24, 14),
                     hintStyle: GoogleFonts.lexend(
                       color: Colors.green,
                     ),

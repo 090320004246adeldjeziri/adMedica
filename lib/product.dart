@@ -72,18 +72,19 @@ class _InfoProductState extends State<InfoProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(226, 239, 247, 1),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            elevation: 0,
+            elevation: 4,
             collapsedHeight: MediaQuery.of(context).size.height * 0.07,
             pinned: true,
             expandedHeight: MediaQuery.of(context).size.height * 0.43,
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
+                alignment: Alignment.center,
                 children: [
-                  Positioned(
+                  Center(
                     child: Image.network(
                       _newsitem.imgUrl[currentImageIndex],
                       fit: BoxFit.cover,
@@ -226,10 +227,12 @@ class _InfoProductState extends State<InfoProduct> {
                                   color: Colors.white,
                                 ),
                                 child: Text(
-                                  quantity.toString(),
+                                  quantity == quantity.toInt()
+                                      ? quantity.toInt().toString()
+                                      : quantity.toString(),
                                   style: GoogleFonts.lexend(
                                     color: Colors.green[800],
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w400,
                                     fontSize: 20,
                                   ),
                                 ),
@@ -246,7 +249,7 @@ class _InfoProductState extends State<InfoProduct> {
                       Column(
                         children: [
                           Text(
-                            (double.parse(_newsitem.prix)*quantity).toString()+"DA" ,
+                            "${double.parse(_newsitem.prix) * quantity.toInt()}DA",
                             style: GoogleFonts.lexend(
                               fontSize: 23,
                               color: const Color.fromRGBO(16, 130, 96, 1),
@@ -299,7 +302,16 @@ class _InfoProductState extends State<InfoProduct> {
                 Padding(
                   padding: const EdgeInsets.all(30),
                   child: ElevatedButton(
-                    onPressed: () {}, //=> _addToCart(),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.green),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side: BorderSide(color: Colors.white, width: 1)),
+                      ),
+                    ),
+                    onPressed: () => _addToCart(),
                     child: Text(
                       "Add To Carte ",
                       style: GoogleFonts.lexend(

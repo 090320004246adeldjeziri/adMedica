@@ -17,71 +17,65 @@ class _FirstPageState extends State<FirstPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body: SafeArea(child:
-      
-       Padding(
-         padding: const EdgeInsets.all(20.0),
-         child: Column(
+      body: SafeArea(
+          child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
           children: [
             Image.asset(
-                  'assets/images/dawa.png',
+              'assets/images/dawa.png',
             ),
             const SizedBox(
               height: 30,
-              
             ),
-     SizedBox(
-                  width: double.infinity,
-                  height: 60,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      alignment: Alignment.center,
-                      backgroundColor: Colors.green,
-                    ),
-                    onPressed: () {
-                      // Perform login action
-                      Get.to(ChooseRolePage());
-                
-                    },
-                    child: Text(
-                      "Sign Up",
-                      style: GoogleFonts.poppins(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+            SizedBox(
+              width: double.infinity,
+              height: 60,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  alignment: Alignment.center,
+                  backgroundColor: Colors.green,
+                ),
+                onPressed: () {
+                  // Perform login action
+                  Get.to(ChooseRolePage());
+                },
+                child: Text(
+                  "CREATE ACCOUNT",
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 30,),
-                  SizedBox(
-                  width: double.infinity,
-                  height: 60,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      alignment: Alignment.center,
-                      backgroundColor: Colors.green,
-                    ),
-                    onPressed: () {
-                      // Perform login action
-                       Get.to(LoginPage());
-                
-                    },
-                    child: Text(
-                      "Sign in",
-                      style: GoogleFonts.poppins(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            SizedBox(
+              width: double.infinity,
+              height: 60,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  alignment: Alignment.center,
+                  backgroundColor: Colors.green,
+                ),
+                onPressed: () {
+                  // Perform login action
+                  Get.to(LoginPage());
+                },
+                child: Text(
+                  "LOG IN",
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-
+              ),
+            ),
           ],
-      ),
-       )),
-
-
+        ),
+      )),
     );
   }
 }

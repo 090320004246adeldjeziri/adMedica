@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medical/productCategory.dart';
+
+import 'productCategory.dart'; // Corrected file name and class name
 
 class CategoryController extends GetxController {
   var selectedIndex = 0.obs;
@@ -10,11 +11,11 @@ class CategoryController extends GetxController {
   }
 }
 
-class Category extends StatelessWidget {
+class Category extends StatelessWidget { // Renamed to CategoryWidget to follow convention
+
   final CategoryController categoryController = Get.put(CategoryController());
 
   final List<String> pharmacyCategories = [
-    
     'Vitamin',
     'Baby',
     'Medical material',
@@ -26,7 +27,7 @@ class Category extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 40,
+      height: 60,
       child: Obx(() {
         final selectedIndex = categoryController.selectedIndex.value;
         return ListView.builder(
@@ -43,16 +44,20 @@ class Category extends StatelessWidget {
               },
               child: Container(
                 alignment: Alignment.center,
-                margin: const EdgeInsets.symmetric(horizontal: 8),
+                margin: const EdgeInsets.only(left: 8, right: 8),
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: isSelected ? Colors.green : Colors.grey,
+                  color: Colors.amber[100],
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 2, // Adjust the border width as needed
+                  ),
                 ),
                 child: Text(
                   category,
-                  style: TextStyle(
-                    color: isSelected ? Colors.white : Colors.black,
+                  style: const TextStyle(
+                    color: Colors.black,
                     fontSize: 12.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -65,5 +70,3 @@ class Category extends StatelessWidget {
     );
   }
 }
-
-

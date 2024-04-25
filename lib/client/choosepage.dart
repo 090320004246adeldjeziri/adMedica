@@ -23,7 +23,10 @@ class _ChooseRolePageState extends State<ChooseRolePage> {
   @override
   Widget build(BuildContext context) {
     final SignUpController signUpController = Get.put(SignUpController());
-    List<String> userTypeOptions = ['Pharmacy', 'Client', ];
+    List<String> userTypeOptions = [
+      'Pharmacy',
+      'Client',
+    ];
 
     return Scaffold(
       backgroundColor: Colors.blue[50],
@@ -66,9 +69,8 @@ class _ChooseRolePageState extends State<ChooseRolePage> {
                 height: 200,
                 width: double.infinity,
                 child: Image.asset(
-              'assets/images/dawa.png',
-                  
-                  fit: BoxFit.cover,
+                  'assets/images/dawa.png',
+                  fit: BoxFit.contain,
                 ),
               ),
               const SizedBox(height: 20),
@@ -78,6 +80,8 @@ class _ChooseRolePageState extends State<ChooseRolePage> {
               ),
               const SizedBox(height: 20),
               DropdownButton<String>(
+                alignment: Alignment.center,
+                hint: Text("Role"),
                 value: selectedUserType,
                 onChanged: (String? newValue) {
                   setState(() {

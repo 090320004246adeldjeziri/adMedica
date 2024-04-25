@@ -34,11 +34,12 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return  GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Medicament',
-     home:FirstPage(),
-    // :home: FirstPage(),
+      title: 'DAWAIY',
+      theme: ThemeData(backgroundColor:Color.fromRGBO(226, 239, 247, 1), ),
+    home:FirstPage(),
+    
     
     );
   }
