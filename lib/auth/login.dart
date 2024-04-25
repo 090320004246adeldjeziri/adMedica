@@ -3,11 +3,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medical/auth/sign.dart';
 import 'package:medical/client/choosepage.dart';
 import 'package:medical/controller/SignUpController.dart';
+import 'package:medical/laoding.dart';
+import 'package:medical/laoding.dart';
 import 'package:medical/navigationMenu.dart';
 import 'package:medical/widgets/auth_widget/fieldtext.dart';
 
@@ -25,7 +28,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.blue[50],
       appBar: AppBar(
-        leading: Text(""),
+        leading: const Text(""),
         centerTitle: true,
         backgroundColor: const Color.fromRGBO(226, 239, 247, 1),
         title: Text(
@@ -74,9 +77,15 @@ class LoginPage extends StatelessWidget {
                     alignment: Alignment.center,
                     backgroundColor: Colors.green,
                   ),
-                  onPressed: () {
-                    // Perform login action
-                    loginController.login();
+                 onPressed: () {
+                    // Afficher un indicateur de chargement avant d'effectuer la connexion
+                  LoadingIndicatorUtil. showLoadingIndicator(context,0.2);
+                    // Activer loginController.login() après un certain délai simulé
+                    Future.delayed(const Duration(seconds: 3), () {
+                      LoadingIndicatorUtil.removeLoadingIndicator();
+                      // Effectuer l'action de connexion
+                      loginController.login();
+                    });
                   },
                   child: Text(
                     "Log In",
@@ -149,4 +158,8 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+  OverlayEntry? overlayEntry;
+
+// Fonction pour afficher l'indicateur de chargement
+  
 }

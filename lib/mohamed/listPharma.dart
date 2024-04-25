@@ -68,6 +68,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pharmacy List'),
+         backgroundColor: Colors.green,
       ),
       body: Column(
         children: [
@@ -151,6 +152,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
           Padding(
             padding: const EdgeInsets.all(30.0),
             child: FloatingActionButton.extended(
+              
               onPressed: () {
                 setState(() {
                   isAllSelected = !isAllSelected;
@@ -161,11 +163,13 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
               },
               label: Text(isAllSelected ? 'Deselect All' : 'Select All'),
               icon: const Icon(Icons.select_all),
+              backgroundColor: Colors.green,
             ),
           ),
           const SizedBox(width: 10), // Add some space between buttons
           anyItemSelected
               ? FloatingActionButton(
+                 backgroundColor: Colors.green,
                   onPressed: () {
                     if (ImageService.selectedImagePath != "nn") {
                       _handleSendImage(context, ImageService.selectedImagePath!);
@@ -243,6 +247,7 @@ Center(
                   onPressed: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
+                     Navigator.of(context).pop();
                   },
                   child: const Text('OK'),
                 ),
@@ -253,4 +258,5 @@ Center(
       },
     );
   }
+  
 }

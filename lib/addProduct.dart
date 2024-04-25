@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:medical/laoding.dart';
 
 import 'News.dart';
 
@@ -106,7 +107,10 @@ class _AddProductToFirebaseState extends State<AddProductToFirebase> {
             const SizedBox(height: 20),
             _buildImageGrid(),
             const SizedBox(height: 20),
-            _buildSubmitButton(),
+            _buildSubmitButton(
+            
+            ),
+           
           ],
         ),
       ),
@@ -237,6 +241,7 @@ class _AddProductToFirebaseState extends State<AddProductToFirebase> {
         ),
       ),
     );
+   
   }
 
   void _pickImages() async {

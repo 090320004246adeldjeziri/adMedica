@@ -47,6 +47,10 @@ class Setting extends StatelessWidget {
             Image.asset("assets/images/dawa.png", fit: BoxFit.contain),
             const SizedBox(height: 20),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  alignment: Alignment.center,
+                  backgroundColor: Colors.green,
+                ),
                 onPressed: () => controller.logout(),
                 child: Container(
                   alignment: Alignment.center,
@@ -56,6 +60,10 @@ class Setting extends StatelessWidget {
                     "Sign Out",
                     style: GoogleFonts.lexend(
                         fontWeight: FontWeight.w900, fontSize: 20),
+                     
+     // Couleur de fond du bouton
+    // Autres propriétés de style du bouton si nécessaire
+  
                   ),
                 ))
           ],
