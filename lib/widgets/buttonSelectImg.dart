@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, unused_import, prefer_const_constructors_in_immutables, dead_code, file_names
+// ignore_for_file: must_be_immutable, unused_import, prefer_const_constructors_in_immutables, dead_code, file_names, sort_child_properties_last
 
 import 'dart:async';
 import 'dart:io';
@@ -40,8 +40,13 @@ class ButtonSelectImg extends StatelessWidget {
                 left: Radius.circular(100),
                 right: Radius.circular(100),
               ),
+              // color: Colors.green,
             ),
             child: ElevatedButton(
+                style: ButtonStyle(
+    backgroundColor: MaterialStateProperty.all<Color>(Colors.green), // Couleur de fond du bouton
+    // Autres propriétés de style du bouton si nécessaire
+  ),
               onPressed: () async {
                 ImageService.selectedImagePath = await controller.afficheImage(
                   isGallery ? ImageSource.gallery : ImageSource.camera,
@@ -57,11 +62,7 @@ class ButtonSelectImg extends StatelessWidget {
                   );
                 }
               },
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
+         
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -107,6 +108,9 @@ class ButtonSelectImg extends StatelessWidget {
                 ),
               );
             },
+            style: ElevatedButton.styleFrom(
+    primary: Colors.green, // Définir la couleur d'arrière-plan sur vert
+  ),
           )
           // _handleSendImage(context, selectedImagePath);
           //je veux ici affiche la liste des pharmacy et apres send image
