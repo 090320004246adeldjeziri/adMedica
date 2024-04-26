@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'img_controller.dart';
 import '../services/imagesService.dart';
@@ -12,7 +13,7 @@ class Pharmacy {
   final double distance;
   final double latitude;
   final double longitude;
-  final String imagePath; // New field for image path
+  final String imagePath;
   bool isSelected;
 
   Pharmacy({
@@ -20,7 +21,7 @@ class Pharmacy {
     required this.distance,
     required this.latitude,
     required this.longitude,
-    required this.imagePath, // Include image path in constructor
+    required this.imagePath,
     this.isSelected = false,
   });
 }
@@ -39,24 +40,24 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
   List<Pharmacy> pharmacies = [
     Pharmacy(
       name: 'Pharmacy Benhabi fethallah',
-      distance: 2.5,
+      distance: 100,
       latitude: 35.30094,
       longitude: -1.12382,
-      imagePath: 'path_to_image1', // Image path for pharmacy 1
+      imagePath: 'path_to_image1',
     ),
     Pharmacy(
       name: 'Pharmacy DR kichah',
-      distance: 4.0,
+      distance: 300,
       latitude: 35.29580,
       longitude: -1.12705,
-      imagePath: 'path_to_image2', // Image path for pharmacy 2
+      imagePath: 'path_to_image2',
     ),
     Pharmacy(
       name: 'Pharmacy Belghoumari',
-      distance: 1.2,
+      distance: 490,
       latitude: 35.30728,
       longitude: -1.13514,
-      imagePath: 'path_to_image3', // Image path for pharmacy 3
+      imagePath: 'path_to_image3',
     ),
   ];
   bool isAllSelected = false;
@@ -67,79 +68,120 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pharmacy List'),
-         backgroundColor: Colors.green,
+        title: Text(
+          'Pharmacy List',
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.teal,
+        elevation: 0,
       ),
       body: Column(
         children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-              ),
-              const Flexible(
-                child: Text(
-                  'Choisissez la distance : ',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Sélectionnez la distance : ',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.teal,
+                    ),
                   ),
-                  softWrap: true,
                 ),
-              ),
-              const SizedBox(width: 10),
-              DropdownButton<int>(
-                value: selectedDistance.toInt(),
-                onChanged: (int? value) {
-                  setState(() {
-                    selectedDistance = value!.toDouble();
-                  });
-                },
-                items: [500, 1000, 1500, 2000].map<DropdownMenuItem<int>>((int distance) {
-                  return DropdownMenuItem<int>(
-                    value: distance,
-                    child: Text(distance == 500 ? 'Moins de 500 mètres' : '${distance / 1000} km'),
-                  );
-                }).toList(),
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
+                const SizedBox(width: 10),
+                DropdownButton<int>(
+                  value: selectedDistance.toInt(),
+                  onChanged: (int? value) {
+                    setState(() {
+                      selectedDistance = value!.toDouble();
+                    });
+                  },
+                  items: [500, 1000, 1500, 2000]
+                      .map<DropdownMenuItem<int>>((int distance) {
+                    return DropdownMenuItem<int>(
+                      value: distance,
+                      child: Text(
+                        distance == 500
+                            ? 'Moins de 500 mètres'
+                            : '${distance / 1000} km',
+                        style: GoogleFonts.poppins(
+                          color: Colors.teal,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  icon: Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.teal,
+                  ),
+                  underline: Container(
+                    height: 1,
+                    color: Colors.grey.shade300,
+                  ),
                 ),
-                icon: const Icon(Icons.arrow_drop_down),
-                underline: Container(
-                  height: 1,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
           Expanded(
             child: ListView.builder(
               itemCount: pharmacies.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(pharmacies[index].name),
-                  subtitle: Text('${pharmacies[index].distance} km away'),
-                  leading: IconButton(
-                    icon: const Icon(Icons.location_on),
-                    onPressed: () {
-                      _launchMap(pharmacies[index]);
+                return Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  child: ListTile(
+                    title: Text(
+                      pharmacies[index].name,
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.teal,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${pharmacies[index].distance.toStringAsFixed(1)} m',
+                      style: GoogleFonts.poppins(
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                    leading: IconButton(
+                      icon: Icon(
+                        Icons.location_on,
+                        color: Colors.teal,
+                      ),
+                      onPressed: () {
+                        _launchMap(pharmacies[index]);
+                      },
+                    ),
+                    trailing: Checkbox(
+                      value: pharmacies[index].isSelected,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          pharmacies[index].isSelected = value!;
+                          _checkAllSelected();
+                        });
+                      },
+                      activeColor: Colors.teal,
+                      checkColor: Colors.white,
+                    ),
+                    onTap: () {
+                      // Set the selected image path when a pharmacy is tapped
+                      ImageService.selectedImagePath =
+                          pharmacies[index].imagePath;
                     },
                   ),
-                  trailing: Checkbox(
-                    value: pharmacies[index].isSelected,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        pharmacies[index].isSelected = value!;
-                        _checkAllSelected();
-                      });
-                    },
-                  ),
-                  onTap: () {
-                    // Set the selected image path when a pharmacy is tapped
-                    ImageService.selectedImagePath = pharmacies[index].imagePath;
-                  },
                 );
               },
             ),
@@ -147,43 +189,48 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
         ],
       ),
       floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: FloatingActionButton.extended(
-              
-              onPressed: () {
-                setState(() {
-                  isAllSelected = !isAllSelected;
-                  pharmacies.forEach((pharmacy) {
-                    pharmacy.isSelected = isAllSelected;
-                  });
+          FloatingActionButton.extended(
+            onPressed: () {
+              setState(() {
+                isAllSelected = !isAllSelected;
+                pharmacies.forEach((pharmacy) {
+                  pharmacy.isSelected = isAllSelected;
                 });
-              },
-              label: Text(isAllSelected ? 'Deselect All' : 'Select All'),
-              icon: const Icon(Icons.select_all),
-              backgroundColor: Colors.green,
+              });
+            },
+            label: Text(
+              isAllSelected ? 'Désélectionner tout' : 'Sélectionner tout',
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w600,
+              ),
             ),
+            icon: Icon(
+              isAllSelected ? Icons.deselect : Icons.select_all,
+            ),
+            backgroundColor: Colors.teal,
           ),
-          const SizedBox(width: 10), // Add some space between buttons
+          const SizedBox(width: 16),
           anyItemSelected
               ? FloatingActionButton(
-                 backgroundColor: Colors.green,
+                  backgroundColor: Colors.teal,
                   onPressed: () {
                     if (ImageService.selectedImagePath != "nn") {
                       _handleSendImage(context, ImageService.selectedImagePath!);
                     } else {
-                      print("select an image please");
+                      print("Veuillez sélectionner une image");
                     }
                   },
                   child: const Icon(Icons.send),
                 )
-              : const SizedBox(), // Empty SizedBox if no item is selected
+              : const SizedBox(),
         ],
       ),
     );
   }
+
+
 
   void _launchMap(Pharmacy pharmacy) async {
     final url =

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:medical/client/SettingPage.dart';
+import 'package:medical/doctor/doctor/screen/doctorList.dart';
 import 'package:medical/partie_pharmacy/addProductNotif.dart';
 import 'package:medical/partie_pharmacy/list_notification.dart';
 
@@ -36,6 +37,7 @@ class PharmacyMenu extends StatelessWidget {
                   size: 26,
                 ),
                 label: "Add Product"),
+               
             NavigationDestination(
               icon: Icon(Icons.settings),
               label: "Setting",

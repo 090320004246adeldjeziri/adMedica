@@ -5,9 +5,10 @@ class Ordonoces {
   final String name;
    final String phoneNumber;
   final String ordonoce_Image;
-  Ordonoces({required this.ordonoce_Image,  
+  final String docId;
+  Ordonoces( {required this.ordonoce_Image,  
    required this.phoneNumber,
-  required this.name,
+  required this.name, required this.docId
   });
 
 

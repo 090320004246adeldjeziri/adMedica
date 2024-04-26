@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:medical/addProduct.dart';
 import 'package:medical/carteShopping.dart';
+import 'package:medical/doctor/doctor/screen/doctorList.dart';
 import 'package:medical/favorite.dart';
 import 'package:medical/main.dart';
 import 'package:medical/searchBar.dart';
@@ -52,6 +53,7 @@ class NavigationMenu extends StatelessWidget {
                   size: 26,
                 ),
                 label: "Ordonance"),
+                 NavigationDestination(icon:Icon(Icons.people),label: "Doctors",),
             NavigationDestination(
                 label: "Setting", icon: Icon(Icons.settings, size: 26))
           ],
@@ -70,6 +72,7 @@ class NavigationController extends GetxController {
     CartPage(),
     const FavoritesPage(),
     SelectImg(title: "Select Ordonnance Image! "),
+  const DoctorsList(),
     Setting()
   ];
 }

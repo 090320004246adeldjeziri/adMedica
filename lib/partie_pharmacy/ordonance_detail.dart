@@ -1,31 +1,22 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 class AgrandirImagePage extends StatefulWidget {
   final String imageUrl;
- 
- AgrandirImagePage({Key? key, required this.imageUrl}) : super(key: key);
+
+  AgrandirImagePage({Key? key, required this.imageUrl}) : super(key: key);
 
   @override
   State<AgrandirImagePage> createState() => _AgrandirImagePageState();
 }
 
 class _AgrandirImagePageState extends State<AgrandirImagePage> {
-    final TextEditingController _textController = TextEditingController();
-
+  final TextEditingController _textController = TextEditingController();
   late TextEditingController _textEditingController;
-      void _sendMessage() {
-    final message = _textController.text;
-    DatabaseReference messageRef =
-        FirebaseDatabase.instance.reference().child('messages');
-    messageRef.push().set({'message': message});
-    _textController.clear();
-  }
 
   @override
   void initState() {
@@ -37,21 +28,29 @@ class _AgrandirImagePageState extends State<AgrandirImagePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Agrandir Image'),
+        title: Text(
+          'Agrandir Image',
+          style: GoogleFonts.openSans(
+            fontWeight: FontWeight.bold,
+            fontSize: 18.0,
+          ),
+        ),
+        backgroundColor: Colors.teal, // Couleur de la barre d'application
       ),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 20),
-            _buildImageWidget(),
-            const SizedBox(height: 20),
-            _buildButtonRow(),
-            const SizedBox(height: 20),
-            _buildTextField(),
-            const SizedBox(height: 20),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _buildImageWidget(),
+              
+              const SizedBox(height: 20),
+              _buildTextField(),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );
@@ -78,79 +77,83 @@ class _AgrandirImagePageState extends State<AgrandirImagePage> {
     );
   }
 
-  Widget _buildButtonRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            // Action du bouton vert
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green,
-          ),
-          child: const Text('Disponible'),
-        ),
-        const SizedBox(width: 20), // Espacement entre les boutons
-        ElevatedButton(
-          onPressed: () {
-            // Action du bouton rouge
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red,
-          ),
-          child: const Text('non Disponible'),
-        ),
-      ],
-    );
-  }Widget _buildTextField() {
-  return Padding(
-    padding: const EdgeInsets.all(20.0),
-    child: Row(
-      children: [
-        Expanded(
-          child: TextField(
-            controller: _textEditingController,
-            decoration: const InputDecoration(
-              hintText: 'Entrez votre remarque ici...',
-              border: OutlineInputBorder(),
+
+  Widget _buildTextField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: _textEditingController,
+              decoration: InputDecoration(
+                hintText: 'Entrez votre remarque ici...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                prefixIcon: Icon(Icons.comment), // Icône pour le champ de texte
+              ),
             ),
           ),
-        ),
-        SizedBox(width: 10), // Espacement entre le champ de texte et le bouton
-        ElevatedButton(
-          onPressed: () {
-            String text = _textEditingController.text.trim();
-            if (text.isNotEmpty) {
-              _sendTextToFirebase(text);
-              _textEditingController.clear();
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('Veuillez entrer une remarque'),
-              ));
-            }
-          },
-          child: Text('Envoyer'),
-        ),
-      ],
-    ),
-  );
-}
+          SizedBox(width: 10),
+          ElevatedButton(
+            onPressed: () {
+              String text = _textEditingController.text.trim();
+              if (text.isNotEmpty) {
+                _sendTextToFirebase(text);
+                _textEditingController.clear();
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Veuillez entrer une remarque'),
+                    backgroundColor: Colors.red,
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              }
+            },
+            child: Text(
+              'Envoyer',
+              style: GoogleFonts.openSans(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.teal, // Couleur du bouton "Envoyer"
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Future<void> _sendTextToFirebase(String text) async {
     try {
       await FirebaseFirestore.instance.collection('messages').add({
         'text': text,
         'timestamp': DateTime.now(),
-        'isRead':false,
+        'isRead': false,
       });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Message sent successfully'),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Message envoyé avec succès'),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Failed to send message'),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Échec de l\'envoi du message'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
       print(e);
     }
   }
@@ -160,6 +163,4 @@ class _AgrandirImagePageState extends State<AgrandirImagePage> {
     _textEditingController.dispose();
     super.dispose();
   }
-
-
 }
