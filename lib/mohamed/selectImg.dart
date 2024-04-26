@@ -22,38 +22,41 @@ class SelectImg extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: GetBuilder<ImageController>(builder: (controller) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CustomeLottieImage(
-                height: 260,
-                path: AppImages.select,
-                speed: 0.1,
-              ),
-              const CustomeTitle(
-                title: "Select Ordonance",
-                size: 40,
-              ),
-              CustomeBodyText(body_: AppBodyText.choosePhoto),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ButtonSelectImg(
-                    buttonIcon: Icons.photo,
-                    buttonTitle: "Gallery",
-                    isGallery: true,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ButtonSelectImg(
-                    buttonIcon: Icons.camera_alt_outlined,
-                    buttonTitle: "Camera",
-                    isGallery: false,
-                  )
-                ],
-              ),
-            ],
+          return SingleChildScrollView(
+            padding: const EdgeInsets.only(top: 40),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomeLottieImage(
+                  height: 260,
+                  path: AppImages.select,
+                  speed: 0.1,
+                ),
+                const CustomeTitle(
+                  title: "Select Ordonance",
+                  size: 40,
+                ),
+                CustomeBodyText(body_: AppBodyText.choosePhoto),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ButtonSelectImg(
+                      buttonIcon: Icons.photo,
+                      buttonTitle: "Gallery",
+                      isGallery: true,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ButtonSelectImg(
+                      buttonIcon: Icons.camera_alt_outlined,
+                      buttonTitle: "Camera",
+                      isGallery: false,
+                    )
+                  ],
+                ),
+              ],
+            ),
           );
         }),
       ),
