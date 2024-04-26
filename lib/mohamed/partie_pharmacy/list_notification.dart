@@ -53,13 +53,14 @@ class _ListOrdonnaceState extends State<ListOrdonnace> {
   void initState() {
     super.initState();
     getFirestoreCollection();
+    
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("techer"),
+        title: const Text("ordanance list"),
      
       ),
       body: ListView.builder(

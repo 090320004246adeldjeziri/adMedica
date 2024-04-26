@@ -9,7 +9,7 @@ import 'list_notification.dart';
 
 
 class NotificationIconPharma extends StatefulWidget {
-  const NotificationIconPharma({super.key});
+
 
   @override
   _NotificationIconPharmaState createState() => _NotificationIconPharmaState();
