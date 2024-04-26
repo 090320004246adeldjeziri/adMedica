@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medical/News.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 
@@ -13,13 +12,17 @@ class PromoSlider extends StatelessWidget {
     // Calculate the width based on the screen size
     final screenWidth = MediaQuery.of(context).size.width;
     final itemWidth = screenWidth - 10; // Adjust padding and margins
-
+    List<String> imageInfo = [
+      "assets/images/1.jng",
+      "assets/images/2.jpg"
+      "assets/images/3.png"
+    ];
     return Padding(
       padding: const EdgeInsets.all(5),
       child: Column(
         children: [
           CarouselSlider.builder(
-            itemCount: 3,
+            itemCount: imageInfo.length,
             options: CarouselOptions(
               viewportFraction: 1,
               height: 180,
@@ -38,9 +41,8 @@ class PromoSlider extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   child: Image(
                       fit: BoxFit.fitHeight,
-                      // image: NetworkImage(products[index].imgUrl.first),
                       image: AssetImage(
-                        "assets/images/img.png",
+                        imageInfo[index],
                       )),
                 ),
               );
@@ -53,7 +55,7 @@ class PromoSlider extends StatelessWidget {
             () => Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                for (int i = 0; i < products.length; i++)
+                for (int i = 0; i < ImageInfo.length; i++)
                   Container(
                     height: 7,
                     width: 18,
