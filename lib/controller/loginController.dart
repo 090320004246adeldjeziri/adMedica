@@ -14,6 +14,7 @@ import '../navigationMenu.dart';
 class LoginController extends GetxController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  var isLoading = false.obs;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   void login() {
@@ -58,6 +59,8 @@ class LoginController extends GetxController {
           fontSize: 17,
         );
       }
+    } finally {
+      isLoading.value = false; // Set isLoading to false after login
     }
   }
 

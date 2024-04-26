@@ -1,5 +1,3 @@
-// ignore_for_file: unused_import, depend_on_referenced_packages, unnecessary_import
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +8,7 @@ import 'package:medical/client/choosepage.dart';
 import 'package:medical/controller/SignUpController.dart';
 import 'package:medical/navigationMenu.dart';
 import 'package:medical/widgets/auth_widget/fieldtext.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../controller/LoginController.dart';
 import '../widgets/auth_widget/passField.dart';
@@ -66,24 +65,33 @@ class LoginPage extends StatelessWidget {
                 icon: const Icon(Icons.lock),
               ),
               const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                height: 40,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    alignment: Alignment.center,
-                    backgroundColor: Colors.green,
-                  ),
-                  onPressed: () {
-                    // Perform login action
-                    loginController.login();
-                  },
-                  child: Text(
-                    "Log In",
-                    style: GoogleFonts.poppins(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+              Obx(
+                () => SizedBox(
+                  width: double.infinity,
+                  height: 40,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      alignment: Alignment.center,
+                      backgroundColor: Colors.green,
                     ),
+                    onPressed: loginController.isLoading.value
+                        ? null
+                        : () {
+                            // Perform login action
+                            loginController.login();
+                          },
+                    child: loginController.isLoading.value
+                        ? const SpinKitFadingCircle(
+                            color: Colors.white,
+                            size: 30,
+                          )
+                        : Text(
+                            "Log In",
+                            style: GoogleFonts.poppins(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   ),
                 ),
               ),

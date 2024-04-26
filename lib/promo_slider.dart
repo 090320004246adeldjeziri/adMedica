@@ -19,7 +19,7 @@ class PromoSlider extends StatelessWidget {
       child: Column(
         children: [
           CarouselSlider.builder(
-            itemCount: products.length,
+            itemCount: 3,
             options: CarouselOptions(
               viewportFraction: 1,
               height: 180,
