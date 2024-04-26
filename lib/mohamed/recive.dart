@@ -27,7 +27,8 @@ class _MessageListScreenState extends State<MessageListScreen> {
     super.initState();
     _messagesStream = _firestore
         .collection('messages')
-        .orderBy('timestamp', descending: true) // Tri par timestamp décroissant
+        .orderBy('timestamp',
+            descending: true) // Tri par timestamp décroissant
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => Message(

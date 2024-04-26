@@ -26,28 +26,59 @@ class _ListOrdonnaceState extends State<ListOrdonnace> {
 
   List<Ordonoces> ordonoces = [];
 
-  Future<void> getFirestoreCollection() async {
-    try {
-      CollectionReference collectionRef =
-          FirebaseFirestore.instance.collection('photo');
+  // Future<void> getFirestoreCollection() async {
+  //   try {
+  //     CollectionReference collectionRef =
+  //         FirebaseFirestore.instance.collection('photo');
 
-      QuerySnapshot querySnapshot = await collectionRef.get();
+  //     QuerySnapshot querySnapshot = await collectionRef.get();
 
-      querySnapshot.docs.forEach((doc) {
-        Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
-        var imageUrl = data!['image_url'];
-        Timestamp time = data['timestamp'];
-        ordonoces.add(Ordonoces(
-          name: time.toDate().toString(),
-          ordonoce_Image: imageUrl,
-          phoneNumber: '',
-        ));
-      });
-      setState(() {}); // Refresh the UI after data retrieval
-    } catch (e) {
-      print('Error fetching Firestore collection: $e');
+  //     querySnapshot.docs.forEach((doc) {
+  //       Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+  //       var imageUrl = data!['image_url'];
+  //       Timestamp time = data['timestamp'];
+  //       ordonoces.add(Ordonoces(
+  //         name: time.toDate().toString(),
+  //         ordonoce_Image: imageUrl,
+  //         phoneNumber: '',
+  //       ));
+  //     });
+  //     setState(() {}); // Refresh the UI after data retrieval
+  //   } catch (e) {
+  //     print('Error fetching Firestore collection: $e');
+  //   }
+  // }
+Future<void> getFirestoreCollection({bool orderByLatest = true}) async {
+  try {
+    CollectionReference collectionRef =
+        FirebaseFirestore.instance.collection('photo');
+
+    QuerySnapshot querySnapshot;
+    if (orderByLatest) {
+      
+      querySnapshot = await collectionRef
+          .orderBy('timestamp', descending: true)
+          .get();
+    } else {
+      querySnapshot = await collectionRef.get();
     }
+
+    ordonoces.clear(); // Clear the existing list
+    querySnapshot.docs.forEach((doc) {
+      Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+      var imageUrl = data!['image_url'];
+      Timestamp time = data['timestamp'];
+      ordonoces.add(Ordonoces(
+        name: time.toDate().toString(),
+        ordonoce_Image: imageUrl,
+        phoneNumber: '',
+      ));
+    });
+    setState(() {}); // Refresh the UI after data retrieval
+  } catch (e) {
+    print('Error fetching Firestore collection: $e');
   }
+}
 
   @override
   void initState() {
@@ -59,6 +90,7 @@ class _ListOrdonnaceState extends State<ListOrdonnace> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text("ordanance list"),
      
