@@ -51,12 +51,7 @@ class _AddProductNotifState extends State<AddProductNotif> {
     ),
   ),
   actions: [
-    IconButton(
-      icon: NotificationIconPharma(),
-      onPressed: () {
-        // Ajoutez votre logique onPressed ici
-      },
-    ),
+  NotificationIconPharma(),
   ],
   centerTitle: true,
   backgroundColor: Colors.grey.withOpacity(0.08),
