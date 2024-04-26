@@ -76,13 +76,10 @@ class LoginPage extends StatelessWidget {
                     alignment: Alignment.center,
                     backgroundColor: Colors.green,
                   ),
-                 onPressed: () {
-                    // Afficher un indicateur de chargement avant d'effectuer la connexion
+              onPressed: () {
                   LoadingIndicatorUtil. showLoadingIndicator(context,0.2);
-                    // Activer loginController.login() après un certain délai simulé
                     Future.delayed(const Duration(seconds: 3), () {
                       LoadingIndicatorUtil.removeLoadingIndicator();
-                      // Effectuer l'action de connexion
                       loginController.login();
                     });
                   },

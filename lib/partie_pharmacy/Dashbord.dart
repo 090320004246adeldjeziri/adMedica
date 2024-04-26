@@ -1,19 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:medical/addProduct.dart';
-import 'package:medical/carteShopping.dart';
-import 'package:medical/favorite.dart';
-import 'package:medical/main.dart';
-import 'package:medical/searchBar.dart';
-import 'HomePage.dart';
-import 'client/SettingPage.dart';
-import 'mohamed/selectImg.dart';
 
-class NavigationMenu extends StatelessWidget {
-  const NavigationMenu({super.key});
+import 'package:medical/client/SettingPage.dart';
+import 'package:medical/partie_pharmacy/addProductNotif.dart';
+import 'package:medical/partie_pharmacy/list_notification.dart';
+
+import 'iconNotifPharma.dart';
+
+class PharmacyMenu extends StatelessWidget {
+  const PharmacyMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,28 +28,18 @@ class NavigationMenu extends StatelessWidget {
           destinations: [
             NavigationDestination(
                 icon: Icon(CupertinoIcons.home, size: 26),
-                label: "Products",
+                label: "Prescriptions",
                 tooltip: "Home Page"),
             NavigationDestination(
                 icon: Icon(
-                  CupertinoIcons.bag,
+                  CupertinoIcons.add_circled,
                   size: 26,
                 ),
-                label: "Store"),
+                label: "Add Product"),
             NavigationDestination(
-                icon: Icon(
-                  CupertinoIcons.heart,
-                  size: 26,
-                ),
-                label: "Favorites"),
-            NavigationDestination(
-                icon: Icon(
-                  Icons.send,
-                  size: 26,
-                ),
-                label: "Ordonance"),
-            NavigationDestination(
-                label: "Setting", icon: Icon(Icons.settings, size: 26))
+              icon: Icon(Icons.settings),
+              label: "Setting",
+            )
           ],
         ),
       ),
@@ -65,11 +51,5 @@ class NavigationMenu extends StatelessWidget {
 class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
-  final screens = [
-    MyHomePage(),
-    CartPage(),
-    const FavoritesPage(),
-    SelectImg(title: "Select Ordonnance Image! "),
-    Setting()
-  ];
+  final screens = [ListOrdonnace(), AddProductNotif(), Setting()];
 }

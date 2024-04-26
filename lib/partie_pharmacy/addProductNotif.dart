@@ -7,8 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medical/News.dart';
 import 'package:medical/mohamed/iconNotif.dart';
-import 'package:medical/mohamed/partie_pharmacy/iconNotifPharma.dart';
-
+import 'package:medical/partie_pharmacy/iconNotifPharma.dart';
 
 class AddProductNotif extends StatefulWidget {
   const AddProductNotif({Key? key}) : super(key: key);
@@ -41,24 +40,20 @@ class _AddProductNotifState extends State<AddProductNotif> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: AppBar(
-  title: Text(
-    'Add New Product2',
-    style: GoogleFonts.lexend(
-      color: Colors.green,
-      fontSize: 20,
-      fontWeight: FontWeight.w500,
-    ),
-  ),
-  actions: [
-  NotificationIconPharma(),
-  ],
-  centerTitle: true,
-  backgroundColor: Colors.grey.withOpacity(0.08),
-  toolbarHeight: 70,
-  elevation: 0,
-),
-
+      appBar: AppBar(
+        title: Text(
+          'Add New Product',
+          style: GoogleFonts.lexend(
+            color: Colors.green,
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.grey.withOpacity(0.08),
+        toolbarHeight: 70,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(

@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart' as flutter_toast;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:medical/addProduct.dart';
-import 'package:medical/mohamed/partie_pharmacy/addProductNotif.dart';
 import 'package:medical/mohamed/selectImg.dart';
-import '../mohamed/partie_pharmacy/ordonance_detail.dart';
+import 'package:medical/partie_pharmacy/Dashbord.dart';
+import 'package:medical/partie_pharmacy/addProductNotif.dart';
 import '../navigationMenu.dart';
 
 class LoginController extends GetxController {
@@ -23,9 +23,9 @@ class LoginController extends GetxController {
 
   void PasswordReset() {
     _auth.sendPasswordResetEmail(email: email.text);
-    // flutter_toast.Fluttertoast.showToast(
-    // msg:
-    //     " We send You message to reset your Password ");
+    flutter_toast.Fluttertoast.showToast(
+    msg:
+        " We send You message to reset your Password ");
   }
 
   void SignIn() async {
@@ -75,7 +75,7 @@ class LoginController extends GetxController {
         if (documentSnapshot.get('rool') == "Client") {
           Get.offAll(() => const NavigationMenu());
         } else if (documentSnapshot.get('rool') == "Pharmacy") {
-          Get.offAll(() => const AddProductNotif());
+          Get.offAll(() => const PharmacyMenu());
         }
       } else {
         print('Document does not exist on the database');
