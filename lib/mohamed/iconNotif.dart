@@ -17,47 +17,61 @@ class _NotificationIconState extends State<NotificationIcon> {
   @override
   void initState() {
     super.initState();
-    listenToDocumentChanges();
+   listenToDocumentChanges();
     fetchNewDocuments();
   }
 
-  void fetchNewDocuments() {
+
+void fetchNewDocuments() {
+  setState(() {
+    _initialCountLoaded = true;
+  });
+
+  // Marquer les documents comme lus dans Firebase Firestore
+  FirebaseFirestore.instance
+      .collection('messages')
+      .where('isRead', isEqualTo: false) // Sélectionnez uniquement les documents non lus
+      .get()
+      .then((querySnapshot) {
     setState(() {
       _initialCountLoaded = true;
+      _newDocumentCount = querySnapshot.size;
     });
+  });
+}
 
-    FirebaseFirestore.instance
-        .collection('messages')
-        .where('isRead', isEqualTo: false)
-        .get()
-        .then((querySnapshot) {
-      setState(() {
-        _initialCountLoaded = true;
-        _newDocumentCount = querySnapshot.size;
-      });
+void fetchNewDocuments2() {
+  setState(() {
+    _iconPressed = true;
+  });
+  
+  // Marquer les documents comme lus dans Firebase Firestore
+  FirebaseFirestore.instance
+      .collection('messages')
+      .where('isRead', isEqualTo: false) // Sélectionnez uniquement les documents non lus
+      .get()
+      .then((querySnapshot) {
+    print(querySnapshot.size);
+    querySnapshot.docs.forEach((doc) {
+      doc.reference.update({'isRead': true});
+      // Mettre à jour le champ isRead à true
     });
-  }
+  });
 
-  void fetchNewDocuments2() {
+
+
+  // Add a snapshot listener to listen for real-time updates in the 'messages' collection
+  FirebaseFirestore.instance
+      .collection('messages')
+      .where('isRead', isEqualTo: false)
+      .snapshots()
+      .listen((querySnapshot) {
     setState(() {
-      _iconPressed = true;
+      _newDocumentCount = querySnapshot.size;
     });
-
-    // Marquer les documents comme lus dans Firebase Firestore
-    FirebaseFirestore.instance
-        .collection('messages')
-        .where('isRead',
-            isEqualTo: false) // Sélectionnez uniquement les documents non lus
-        .get()
-        .then((querySnapshot) {
-      print(querySnapshot.size);
-      querySnapshot.docs.forEach((doc) {
-        doc.reference.update({'isRead': true});
-        // Mettre à jour le champ isRead à true
-      });
-    });
-
-    // Add a snapshot listener to listen for real-time updates in the 'messages' collection
+  });
+}
+   void listenToDocumentChanges() {
     FirebaseFirestore.instance
         .collection('messages')
         .where('isRead', isEqualTo: false)
@@ -69,24 +83,13 @@ class _NotificationIconState extends State<NotificationIcon> {
     });
   }
 
-  void listenToDocumentChanges() {
-    FirebaseFirestore.instance
-        .collection('messages')
-        .where('isRead', isEqualTo: false)
-        .snapshots()
-        .listen((querySnapshot) {
-      setState(() {
-        _newDocumentCount = querySnapshot.size;
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Badge(
       position: BadgePosition.topEnd(top: 20, end: 5),
       badgeContent: _newDocumentCount > 0 && !_iconPressed
-          ? Text(_newDocumentCount.toString(),
+          ? Text('$_newDocumentCount',
               style: const TextStyle(color: Color.fromARGB(255, 223, 214, 214)))
           : null,
       child: Padding(
@@ -95,7 +98,7 @@ class _NotificationIconState extends State<NotificationIcon> {
           alignment: Alignment.center,
           icon: const Icon(
             Icons.notifications,
-            size: 27,
+            size: 30,
             color: Colors.green,
           ),
           onPressed: () {

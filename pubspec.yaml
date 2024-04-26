@@ -26,6 +26,7 @@ dependencies:
   cached_network_image: ^3.2.3
   firebase_auth: ^4.16.0
   image_network: ^2.5.2
+  maps_launcher: ^2.2.1
   # cloud_firestore: ^4.14.0
   
 

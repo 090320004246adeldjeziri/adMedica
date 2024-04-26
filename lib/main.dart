@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medical/HomePage.dart';
+import 'package:medical/doctor/doctor/screen/doctorList.dart';
 import 'package:medical/promo_slider.dart';
 import 'News.dart';
 import 'package:medical/searchBar.dart';
@@ -12,6 +13,7 @@ import 'auth/firstPage.dart';
 import 'auth/sign.dart';
 import 'category.dart';
 import 'controller/ProductController.dart';
+import 'doctor/doctor/screen/doctorPage.dart';
 import 'firebase_options.dart';
 import 'leadingHomePage.dart';
 import 'listViewProduct.dart';
@@ -34,13 +36,14 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return  GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'DAWAIY',
-      theme: ThemeData(backgroundColor:Color.fromRGBO(226, 239, 247, 1), ),
-    home:FirstPage(),
-    
-    
-    );
+   return GetMaterialApp(
+  debugShowCheckedModeBanner: false,
+  title: 'DAWAIY',
+  theme: ThemeData(
+    primarySwatch: Colors.teal, // Utilisation de la couleur verte
+    visualDensity: VisualDensity.adaptivePlatformDensity,
+  ),
+  home: FirstPage(),
+);
   }
 }
