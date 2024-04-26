@@ -109,11 +109,10 @@ class ButtonSelectImg extends StatelessWidget {
               );
             },
             style: ElevatedButton.styleFrom(
-    primary: Colors.green, // Définir la couleur d'arrière-plan sur vert
+    primary: Colors.green, 
   ),
           )
-          // _handleSendImage(context, selectedImagePath);
-          //je veux ici affiche la liste des pharmacy et apres send image
+      
         ],
       ),
     );
