@@ -5,7 +5,7 @@ import 'package:medical/News.dart';
 import 'carteManager.dart';
 
 class ListProduct extends StatefulWidget {
-  final List<CabItem> newsList; // Your list of NewsItem objects
+  final List<CabItem> newsList;
 
   const ListProduct({Key? key, required this.newsList}) : super(key: key);
 
@@ -35,7 +35,6 @@ class _ListProductState extends State<ListProduct> {
           final newsItem = widget.newsList[index];
           return GestureDetector(
             onTap: () {
-              
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -87,13 +86,12 @@ class _ListProductState extends State<ListProduct> {
                           child: Container(
                             height: 20,
                             alignment: Alignment.center,
-                            width: 60,
                             decoration: BoxDecoration(
                               color: Colors.blue,
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
-                              "${products[index].prix} DA",
+                              "${products[index].prix}DA",
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,

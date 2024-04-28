@@ -23,7 +23,7 @@ class _FirstPageState extends State<FirstPage> {
         child: Column(
           children: [
             Image.asset(
-              'assets/images/dawa.png',
+              'assets/images/ic_launcher.png',
             ),
             const SizedBox(
               height: 30,

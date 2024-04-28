@@ -13,9 +13,10 @@ class PromoSlider extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final itemWidth = screenWidth - 10; // Adjust padding and margins
     List<String> imageInfo = [
-      "assets/images/1.jng",
-      "assets/images/2.jpg"
-      "assets/images/3.png"
+      "assets/images/1.jpg",
+      "assets/images/2.jpg",
+      
+      "assets/images/4.png"
     ];
     return Padding(
       padding: const EdgeInsets.all(5),
@@ -55,7 +56,7 @@ class PromoSlider extends StatelessWidget {
             () => Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                for (int i = 0; i < ImageInfo.length; i++)
+                for (int i = 0; i < 3; i++)
                   Container(
                     height: 7,
                     width: 18,

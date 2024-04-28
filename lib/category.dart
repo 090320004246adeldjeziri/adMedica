@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medical/controller/categoryController.dart';
 
-import 'productCategory.dart'; // Corrected file name and class name
+import 'productCategory.dart'; 
 
-class CategoryController extends GetxController {
-  var selectedIndex = 0.obs;
 
-  void selectCategory(int index) {
-    selectedIndex.value = index;
-  }
-}
 
-class Category extends StatelessWidget { // Renamed to CategoryWidget to follow convention
+class Category extends StatelessWidget { 
 
   final CategoryController categoryController = Get.put(CategoryController());
 
@@ -39,7 +34,6 @@ class Category extends StatelessWidget { // Renamed to CategoryWidget to follow 
             return GestureDetector(
               onTap: () {
                 categoryController.selectCategory(index);
-                // Navigate to the ProductsPage and pass the selected category
                 Get.to(ProductCategory(category: category));
               },
               child: Container(

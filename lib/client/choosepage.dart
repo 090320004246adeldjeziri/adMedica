@@ -69,7 +69,7 @@ class _ChooseRolePageState extends State<ChooseRolePage> {
                 height: 200,
                 width: double.infinity,
                 child: Image.asset(
-                  'assets/images/dawa.png',
+                  'assets/images/ic_launcher.png',
                   fit: BoxFit.contain,
                 ),
               ),

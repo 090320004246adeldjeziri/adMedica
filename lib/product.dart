@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medical/News.dart';
 import 'package:medical/main.dart';
-import 'package:medical/title.dart';
-
 import 'FavoriteManager.dart';
 import 'carteManager.dart';
 import 'navigationMenu.dart';
@@ -90,26 +88,6 @@ class _InfoProductState extends State<InfoProduct> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  Positioned(
-                    bottom: 150,
-                    right: 10,
-                    child: IconButton(
-                        onPressed: () => _changeImage(true),
-                        icon: const Icon(
-                            size: 40,
-                            Icons.navigate_next,
-                            color: Colors.white)),
-                  ),
-                  Positioned(
-                    bottom: 150,
-                    left: 10,
-                    child: IconButton(
-                        onPressed: () => _changeImage(true),
-                        icon: const Icon(
-                            size: 40,
-                            Icons.navigate_before,
-                            color: Colors.white)),
-                  ),
                 ],
               ),
             ),
@@ -119,7 +97,8 @@ class _InfoProductState extends State<InfoProduct> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => NavigationMenu()),
+                  MaterialPageRoute(
+                      builder: (context) => const NavigationMenu()),
                 );
               },
               child: Padding(
@@ -308,7 +287,8 @@ class _InfoProductState extends State<InfoProduct> {
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            side: BorderSide(color: Colors.white, width: 1)),
+                            side: const BorderSide(
+                                color: Colors.white, width: 1)),
                       ),
                     ),
                     onPressed: () => _addToCart(),

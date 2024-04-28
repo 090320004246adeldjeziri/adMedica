@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:medical/promo_slider.dart';
+import 'package:medical/client/promo_slider.dart';
 import 'package:medical/searchScreen.dart';
-import 'package:medical/title.dart';
+import 'package:medical/widgets/title.dart';
 import 'News.dart';
 import 'category.dart';
 import 'listViewProduct.dart';
@@ -36,14 +36,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                  children: const [
                      SizedBox(
                       width: 38,
                       height: 38,
                       child: CircleAvatar(
                         backgroundColor:
                             Colors.greenAccent,
-                        child: const Icon(
+                        child:  Icon(
                           size: 25,
                           Icons.person_outline_outlined,
                         ),

@@ -132,7 +132,6 @@ class _ProductCategoryState extends State<ProductCategory> {
                                     child: Container(
                                       height: 20,
                                       alignment: Alignment.center,
-                                      width: 60,
                                       decoration: BoxDecoration(
                                         color: Colors.blue,
                                         borderRadius: BorderRadius.circular(6),
