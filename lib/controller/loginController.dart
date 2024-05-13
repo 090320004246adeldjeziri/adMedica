@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart' as flutter_toast;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:medical/addProduct.dart';
+import 'package:medical/controller/SignUpController.dart';
 import 'package:medical/mohamed/selectImg.dart';
 import 'package:medical/partie_pharmacy/Dashbord.dart';
 import 'package:medical/partie_pharmacy/addProductNotif.dart';
@@ -15,6 +16,7 @@ class LoginController extends GetxController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   var isLoading = false.obs;
+  SignUpController sign = Get.put(SignUpController());
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   void login() {
@@ -34,6 +36,8 @@ class LoginController extends GetxController {
         email: email.text,
         password: password.text,
       );
+      sign.emailpage.value = email.text;
+
       flutter_toast.Fluttertoast.showToast(
         msg: 'Login Successful!',
         backgroundColor: Colors.green[600],
@@ -72,9 +76,9 @@ class LoginController extends GetxController {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        if (documentSnapshot.get('rool') == "Client") {
-          Get.offAll(() => const NavigationMenu());
-        } else if (documentSnapshot.get('rool') == "Pharmacy") {
+        if (documentSnapshot.get('role') == "Client") {
+          Get.offAll(() =>  NavigationMenu());
+        } else if (documentSnapshot.get('role') == "Pharmacy") {
           Get.offAll(() => const PharmacyMenu());
         }
       } else {

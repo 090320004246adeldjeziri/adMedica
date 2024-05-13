@@ -1,20 +1,18 @@
-
 // ignore_for_file: depend_on_referenced_packages
-
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart' as flutter_toast;
 import 'package:get/get.dart';
+import 'package:medical/auth/Users.dart';
 
 import '../auth/login.dart';
 
 class SignUpController extends GetxController {
   var agreementChecked = false.obs;
   var role = "".obs;
-    
-
+  var emailpage = "".obs;
   void toggleAgreement(bool value) {
     agreementChecked.value = value;
   }
@@ -31,7 +29,7 @@ class SignUpController extends GetxController {
   void onSignUp() {
     if (!agreementChecked.value) {
       flutter_toast.Fluttertoast.showToast(
-        msg: "Accept agreement please !",
+        msg: "Please accept the agreement!",
         toastLength: flutter_toast.Toast.LENGTH_SHORT,
         gravity: flutter_toast.ToastGravity.BOTTOM,
         backgroundColor: Colors.red[400],
@@ -39,78 +37,70 @@ class SignUpController extends GetxController {
         fontSize: 16.0,
       );
     } else {
-      createAccount(email.text , password.text , role.value);
+      createAccount(email.text, password.text, role.value);
     }
   }
 
-  Future<void> createAccount(String email, String password,String role) async {
-    // if (equal(password,confirmpassword)) {
-    //   flutter_toast.Fluttertoast.showToast(
-    //     msg: "Password Don't Match",
-    //     toastLength: flutter_toast.Toast.LENGTH_SHORT,
-    //     gravity: flutter_toast.ToastGravity.BOTTOM,
-    //     backgroundColor: Colors.green[600],
-    //     textColor: Colors.white,
-    //     fontSize: 16.0,
-    //   );
-    // } else {
-      try {
-        await auth.createUserWithEmailAndPassword(
-            email: email, password: password);
-        print("Account Created");
-                  postDetailsToFirestore(email,role);
+  Future<void> createAccount(String email, String password, String role) async {
+    try {
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(email: email, password: password);
+      String uid = userCredential.user!.uid;
 
+      UserData userData = UserData(
+        uid: uid,
+        name: name.text,
+        email: email,
+        phone: phone.text,
+        prenom: surname.text,
+        role: role,
+      );
+
+      await userData.saveToFirestore();
+      emailpage.value = email;
+      print("Account Created");
+
+      flutter_toast.Fluttertoast.showToast(
+        msg: "Account Created",
+        toastLength: flutter_toast.Toast.LENGTH_SHORT,
+        gravity: flutter_toast.ToastGravity.BOTTOM,
+        backgroundColor: Colors.green[600],
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+
+      Get.offAll(() => LoginPage());
+    } on FirebaseAuthException catch (ex) {
+      if (ex.code == "weak-password") {
         flutter_toast.Fluttertoast.showToast(
-          msg: "Account Created",
+          msg: "Weak Password",
           toastLength: flutter_toast.Toast.LENGTH_SHORT,
           gravity: flutter_toast.ToastGravity.BOTTOM,
-          backgroundColor: Colors.green[600],
+          backgroundColor: Colors.orange[400],
           textColor: Colors.white,
           fontSize: 16.0,
         );
-
-        Get.offAll(() => LoginPage());
-      } on FirebaseAuthException catch (ex) {
-        if (ex.code == "weak-password") {
-          flutter_toast.Fluttertoast.showToast(
-            msg: "Weak Password",
-            toastLength: flutter_toast.Toast.LENGTH_SHORT,
-            gravity: flutter_toast.ToastGravity.BOTTOM,
-            backgroundColor: Colors.orange[400],
-            textColor: Colors.white,
-            fontSize: 16.0,
-          );
-          print("Weak Password");
-        } else if (ex.code == "email-already-in-use") {
-          flutter_toast.Fluttertoast.showToast(
-            msg: "Email Already exists",
-            toastLength: flutter_toast.Toast.LENGTH_SHORT,
-            gravity: flutter_toast.ToastGravity.BOTTOM,
-            backgroundColor: Colors.red[400],
-            textColor: Colors.white,
-            fontSize: 16.0,
-          );
-          print("Email Already exists Login Please !");
-        }
-      } catch (ex) {
-        print(ex);
+        print("Weak Password");
+      } else if (ex.code == "email-already-in-use") {
         flutter_toast.Fluttertoast.showToast(
-          msg: ex.toString(),
+          msg: "Email Already Exists",
           toastLength: flutter_toast.Toast.LENGTH_SHORT,
           gravity: flutter_toast.ToastGravity.BOTTOM,
           backgroundColor: Colors.red[400],
           textColor: Colors.white,
           fontSize: 16.0,
         );
+        print("Email Already Exists. Please Login!");
       }
+    } catch (ex) {
+      print(ex);
+      flutter_toast.Fluttertoast.showToast(
+        msg: ex.toString(),
+        toastLength: flutter_toast.Toast.LENGTH_SHORT,
+        gravity: flutter_toast.ToastGravity.BOTTOM,
+        backgroundColor: Colors.red[400],
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
-    postDetailsToFirestore(String email,  String role) async {
-      print('*********************************');
-      print(role);
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    var user = auth.currentUser;
-    CollectionReference ref = FirebaseFirestore.instance.collection('users');
-    ref.doc(user!.uid).set({'email': email, 'rool': role});
-        Get.offAll(() => LoginPage());
-    }
+  }
 }

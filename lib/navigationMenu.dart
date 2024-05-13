@@ -13,8 +13,9 @@ import 'HomePage.dart';
 import 'client/SettingPage.dart';
 import 'mohamed/selectImg.dart';
 
-class NavigationMenu extends StatelessWidget {
-  const NavigationMenu({super.key});
+class NavigationMenu extends StatelessWidget { 
+ 
+   NavigationMenu({super.key,});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class NavigationMenu extends StatelessWidget {
           onDestinationSelected: (index) =>
               controller.selectedIndex.value = index,
           selectedIndex: controller.selectedIndex.value,
-          destinations: [
+          destinations: const [
             NavigationDestination(
                 icon: Icon(CupertinoIcons.home, size: 26),
                 label: "Products",
@@ -54,8 +55,7 @@ class NavigationMenu extends StatelessWidget {
                 ),
                 label: "Ordonance"),
                  NavigationDestination(icon:Icon(Icons.people),label: "Doctors",),
-            NavigationDestination(
-                label: "Setting", icon: Icon(Icons.settings, size: 26))
+         
           ],
         ),
       ),
@@ -73,6 +73,6 @@ class NavigationController extends GetxController {
     const FavoritesPage(),
     SelectImg(title: "Select Ordonnance Image! "),
   const DoctorsList(),
-    Setting()
+    
   ];
 }

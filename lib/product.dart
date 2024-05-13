@@ -45,12 +45,11 @@ class _InfoProductState extends State<InfoProduct> {
     });
   }
 
-// Inside _InfoProductState class
 
   void _addToCart() {
     CartManager.addToCart(widget.newsItem);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Added to cart'),
       ),
     );
@@ -98,7 +97,7 @@ class _InfoProductState extends State<InfoProduct> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const NavigationMenu()),
+                      builder: (context) =>  NavigationMenu()),
                 );
               },
               child: Padding(

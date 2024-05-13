@@ -1,7 +1,7 @@
 {
   "file_generated_by": "FlutterFire CLI",
   "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
-  "GOOGLE_APP_ID": "1:1002122361097:ios:79879ebb43ebdee28ebbd8",
-  "FIREBASE_PROJECT_ID": "medical-9c0a9",
-  "GCM_SENDER_ID": "1002122361097"
+  "GOOGLE_APP_ID": "1:231588690647:ios:2c50f578264c05d49a0e92",
+  "FIREBASE_PROJECT_ID": "medicalfinal-79ade",
+  "GCM_SENDER_ID": "231588690647"
 }

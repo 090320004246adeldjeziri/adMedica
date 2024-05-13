@@ -1,13 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:medical/auth/Users.dart';
 import 'package:medical/client/promo_slider.dart';
+import 'package:medical/controller/SignUpController.dart';
 import 'package:medical/searchScreen.dart';
 import 'package:medical/widgets/title.dart';
 import 'News.dart';
+import 'package:get/get.dart';
 import 'category.dart';
+import 'controller/settingController.dart';
 import 'listViewProduct.dart';
 import 'mohamed/iconNotif.dart';
+
+// Constantes pour les couleurs
+const kPrimaryColor = Color.fromRGBO(226, 239, 247, 1);
+const kAccentColor = Color.fromRGBO(16, 130, 96, 1);
+const kTextColor = Color.fromARGB(150, 76, 75, 1);
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({super.key});
@@ -17,60 +27,198 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final User? user = FirebaseAuth.instance.currentUser;
+
+  Future<UserData?> fetchUserByEmail(String email) async {
+    UserData? user = await UserData.getUserByEmail(email);
+    return user;
+  }
+
   @override
   Widget build(BuildContext context) {
-    fetchDataFromFirestore();
+    final SettingController controller = Get.put(SettingController());
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0.2,
-          backgroundColor: const Color.fromRGBO(226, 239, 247, 1),
-          leadingWidth: 0.9,
-          toolbarHeight: 70,
-          leading: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const SizedBox(width: 20),
-                Column(
+        drawer: Drawer(
+          elevation: 4,
+          backgroundColor: Colors.greenAccent.withOpacity(0.9),
+          child: ListView(
+            children: [
+              DrawerHeader(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                     SizedBox(
-                      width: 38,
-                      height: 38,
-                      child: CircleAvatar(
-                        backgroundColor:
-                            Colors.greenAccent,
-                        child:  Icon(
-                          size: 25,
-                          Icons.person_outline_outlined,
-                        ),
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.red,
+                      radius: 40,
+                      child: FutureBuilder<UserData?>(
+                        future: fetchUserByEmail(user!.email.toString()),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Text("Client");
+                          } else if (snapshot.hasError) {
+                            return const Text("Client");
+                          } else if (snapshot.hasData) {
+                            UserData? user = snapshot.data;
+                            return user != null
+                                ? Text(user.name,
+                                    style: GoogleFonts.pontanoSans(
+                                        color: Colors.white, fontSize: 19,fontWeight: FontWeight.w700))
+                                : const Text("Client");
+                          }
+                          return const Text("");
+                        },
                       ),
+                    ),
+                    SizedBox(width: 10),
+                    FutureBuilder<UserData?>(
+                      future: fetchUserByEmail(user!.email.toString()),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Text(
+                            "Chargement...",
+                            style: TextStyle(color: Colors.white),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text(
+                            "Erreur : ${snapshot.error}",
+                            style: GoogleFonts.lexend(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 17,
+                            ),
+                          );
+                        } else if (snapshot.hasData) {
+                          UserData? userData = snapshot.data;
+                          return userData != null
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      userData.email,
+                                      style: GoogleFonts.lexend(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                  ],
+                                )
+                              : Text(
+                                  "Aucune donnée utilisateur",
+                                  style: GoogleFonts.lexend(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15,
+                                  ),
+                                );
+                        }
+                        return Text(
+                          "Erreur",
+                          style: GoogleFonts.lexend(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  const SizedBox(
-                    height: 18,
+              ),
+              ListTile(
+                leading: const Icon(Icons.language, color: Colors.white),
+                title: Text(
+                  'Language',
+                  style: GoogleFonts.lexend(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 15,
                   ),
-                  Text("Hi, Sir !",
-                      style: GoogleFonts.lexend(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: const Color.fromRGBO(16, 130, 96, 1))),
-                  Text("Good Morning",
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: const Color.fromARGB(150, 76, 75, 1),
-                      )),
-                ])
-              ]),
+                ),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: const Icon(Icons.person, color: Colors.white),
+                title: Text(
+                  'Personal Information',
+                  style: GoogleFonts.lexend(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 15,
+                  ),
+                ),
+                onTap: () {
+                  // Ajoutez ici la fonctionnalité pour "Personal Information"
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    controller.logout();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(double.infinity, 50),
+                    primary: Colors.green.withOpacity(0.7),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.person_outline_outlined, color: Colors.white),
+                      SizedBox(width: 8.0),
+                      Text(
+                        'Sign Out',
+                        style: GoogleFonts.lexend(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        appBar: AppBar(
+          elevation: 0.2,
+          backgroundColor: kPrimaryColor,
+          leadingWidth: 56,
+          toolbarHeight: 70,
+          title: FutureBuilder<UserData?>(
+            future: fetchUserByEmail(user!.email.toString()),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text("");
+              } else if (snapshot.hasError) {
+                return Text("");
+              } else if (snapshot.hasData) {
+                UserData? user = snapshot.data;
+                return user != null
+                    ? Text(
+                        "Hi ${user.name}",
+                        style: GoogleFonts.lexend(color: Colors.green),
+                      )
+                    : Text("");
+              }
+              return Text("");
+            },
+          ),
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.menu, color: Colors.green),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          ),
           actions: [
             NotificationIcon(),
             Padding(
@@ -95,36 +243,36 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.only(top: 15),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-//
-            const PromoSlider(),
-            const Padding(
-              padding: EdgeInsets.only(left: 30, right: 10),
-              child: title("Categories", ""),
-            ),
-
-            const SizedBox(height: 20),
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Category(),
-            ),
-
-            const Padding(
-              padding: EdgeInsets.only(left: 10, right: 10),
-              child: title("New Products", "See All"),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8),
-              child: ListProduct(
-                newsList: products,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const PromoSlider(),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: title("Categories", ""),
               ),
-            )
-          ]),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  height: 150,
+                  child: Category(),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: title("New Products", "See All"),
+              ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: ListProduct(
+                  newsList:
+                      products, // Assurez-vous que products est défini et contient des données
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

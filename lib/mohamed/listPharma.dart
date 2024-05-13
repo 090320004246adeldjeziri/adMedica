@@ -1,26 +1,28 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:medical/mohamed/img_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:geolocator/geolocator.dart';
 
-import 'img_controller.dart';
 import '../services/imagesService.dart';
 
 class Pharmacy {
   final String name;
-  final double distance;
+  double distance;
   final double latitude;
+  final String email;
   final double longitude;
-  final String imagePath;
+  final List<String> imagePath;
   bool isSelected;
 
   Pharmacy({
     required this.name,
-    required this.distance,
+    this.distance = 300,
     required this.latitude,
     required this.longitude,
+    required this.email,
     required this.imagePath,
     this.isSelected = false,
   });
@@ -34,38 +36,97 @@ class PharmacyListScreen extends StatefulWidget {
 }
 
 class _PharmacyListScreenState extends State<PharmacyListScreen> {
-  List<double> distances = [500, 1000, 1500, 2000];
-  double selectedDistance = 500;
-  static ImageController controller = ImageController();
   List<Pharmacy> pharmacies = [
     Pharmacy(
       name: 'Pharmacy Benhabi fethallah',
-      distance: 100,
+      email: 'benhabi@gmail.com',
       latitude: 35.30094,
       longitude: -1.12382,
-      imagePath: 'path_to_image1',
+      imagePath: [""],
     ),
     Pharmacy(
       name: 'Pharmacy DR kichah',
-      distance: 300,
       latitude: 35.29580,
       longitude: -1.12705,
-      imagePath: 'path_to_image2',
+      email: 'kichah@gmail.com',
+      imagePath: [""],
     ),
     Pharmacy(
       name: 'Pharmacy Belghoumari',
-      distance: 490,
       latitude: 35.30728,
       longitude: -1.13514,
-      imagePath: 'path_to_image3',
+      email: "Belghoumari@gmail.com",
+      imagePath: [""],
     ),
+    Pharmacy(
+      name: "Benmoussa",
+      latitude: 35.30955709263271,
+      longitude: -1.1337590229870942,
+      email: "benmoussa@gmail.com",
+      imagePath: [""],
+    ),
+    Pharmacy(
+      name: "Saidi",
+      latitude: 35.3101174216988,
+      longitude: -1.1480069170569,
+      email: "saidi@gmail.com",
+      imagePath: [""],
+    )
   ];
   bool isAllSelected = false;
+  double selectedDistance = 500;
+  Position? currentPosition;
+  static ImageController controller = ImageController();
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  Future<void> _getCurrentLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    setState(() {
+      currentPosition = position;
+    });
+  }
+
+  // todo litle modification
+  List<Pharmacy> filteredPharmacies() {
+  if (currentPosition != null) {
+    return pharmacies.where((pharmacy) {
+      double distanceInMeters = Geolocator.distanceBetween(
+        35.30728,
+        -1.13514,
+        // currentPosition!.latitude,
+        // currentPosition!.longitude,
+        pharmacy.latitude,
+        pharmacy.longitude,
+      );
+      
+      pharmacy.distance = distanceInMeters;
+
+      return distanceInMeters <= selectedDistance;
+    }).toList();
+  } else {
+    return [];
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
     bool anyItemSelected = pharmacies.any((pharmacy) => pharmacy.isSelected);
-
+String formatDistance(int meters) {
+  if (meters >= 1000) {
+    double kilometers = meters / 1000;
+    return '${kilometers.toStringAsFixed(1)} km';
+  } else {
+    return '${meters} m';
+  }
+}
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -86,7 +147,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
               children: [
                 Expanded(
                   child: Text(
-                    'Sélectionnez la distance : ',
+                    'Select Distance: ',
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -108,7 +169,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
                       value: distance,
                       child: Text(
                         distance == 500
-                            ? 'Moins de 500 mètres'
+                            ? 'Less than 500 meters'
                             : '${distance / 1000} km',
                         style: GoogleFonts.poppins(
                           color: Colors.teal,
@@ -117,7 +178,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
                       ),
                     );
                   }).toList(),
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_drop_down,
                     color: Colors.teal,
                   ),
@@ -131,7 +192,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: pharmacies.length,
+              itemCount: filteredPharmacies().length,
               itemBuilder: (context, index) {
                 return Card(
                   elevation: 2,
@@ -144,32 +205,27 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
                   ),
                   child: ListTile(
                     title: Text(
-                      pharmacies[index].name,
+                      filteredPharmacies()[index].name,
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                         color: Colors.teal,
                       ),
                     ),
-                    subtitle: Text(
-                      '${pharmacies[index].distance.toStringAsFixed(1)} m',
-                      style: GoogleFonts.poppins(
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
+                    subtitle: Text(formatDistance(filteredPharmacies()[index].distance.toInt())),
                     leading: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.location_on,
                         color: Colors.teal,
                       ),
                       onPressed: () {
-                        _launchMap(pharmacies[index]);
+                        _launchMap(filteredPharmacies()[index]);
                       },
                     ),
                     trailing: Checkbox(
-                      value: pharmacies[index].isSelected,
+                      value: filteredPharmacies()[index].isSelected,
                       onChanged: (bool? value) {
                         setState(() {
-                          pharmacies[index].isSelected = value!;
+                          filteredPharmacies()[index].isSelected = value!;
                           _checkAllSelected();
                         });
                       },
@@ -179,7 +235,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
                     onTap: () {
                       // Set the selected image path when a pharmacy is tapped
                       ImageService.selectedImagePath =
-                          pharmacies[index].imagePath;
+                          filteredPharmacies()[index].imagePath.last;
                     },
                   ),
                 );
@@ -201,7 +257,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
               });
             },
             label: Text(
-              isAllSelected ? 'Désélectionner tout' : 'Sélectionner tout',
+              isAllSelected ? 'Deselect All' : 'Select All',
               style: GoogleFonts.poppins(
                 fontWeight: FontWeight.w600,
               ),
@@ -217,20 +273,19 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
                   backgroundColor: Colors.teal,
                   onPressed: () {
                     if (ImageService.selectedImagePath != "nn") {
-                      _handleSendImage(context, ImageService.selectedImagePath!);
+                      _handleSendImage(
+                          context, ImageService.selectedImagePath!);
                     } else {
                       print("Veuillez sélectionner une image");
                     }
                   },
                   child: const Icon(Icons.send),
                 )
-              : const SizedBox(),
+              : const SizedBox()
         ],
       ),
     );
   }
-
-
 
   void _launchMap(Pharmacy pharmacy) async {
     final url =
@@ -255,23 +310,18 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
     OverlayEntry? overlayEntry;
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        top: MediaQuery.of(context).size.height*0.4,
+        top: MediaQuery.of(context).size.height * 0.4,
         left: 0,
         right: 0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: const [
-Center(
-  child:   SpinKitFadingCircle(
-  
-              color: Colors.green,
-  
-              size: 100.0,
-  
-  
-  
+            Center(
+              child: SpinKitFadingCircle(
+                color: Colors.green,
+                size: 100.0,
+              ),
             ),
-),
           ],
         ),
       ),
@@ -294,7 +344,7 @@ Center(
                   onPressed: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
-                     Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
                   child: const Text('OK'),
                 ),
@@ -305,5 +355,4 @@ Center(
       },
     );
   }
-  
 }
