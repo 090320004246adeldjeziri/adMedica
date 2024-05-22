@@ -59,14 +59,14 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
       imagePath: [""],
     ),
     Pharmacy(
-      name: "Benmoussa",
+      name: "Pharmacy Benmoussa",
       latitude: 35.30955709263271,
       longitude: -1.1337590229870942,
       email: "benmoussa@gmail.com",
       imagePath: [""],
     ),
     Pharmacy(
-      name: "Saidi",
+      name: "Pharmacy Saidi",
       latitude: 35.3101174216988,
       longitude: -1.1480069170569,
       email: "saidi@gmail.com",
@@ -103,7 +103,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
         // currentPosition!.latitude,
         // currentPosition!.longitude,
         pharmacy.latitude,
-        pharmacy.longitude,
+        pharmacy.longitude, 
       );
       
       pharmacy.distance = distanceInMeters;

@@ -49,7 +49,7 @@ class _FirstPageState extends State<FirstPage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             SizedBox(
