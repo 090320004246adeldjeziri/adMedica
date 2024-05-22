@@ -8,6 +8,7 @@ import 'package:medical/partie_pharmacy/addProductNotif.dart';
 import 'package:medical/partie_pharmacy/list_notification.dart';
 
 import 'iconNotifPharma.dart';
+import 'list_notification2.dart';
 
 class PharmacyMenu extends StatelessWidget {
   const PharmacyMenu({super.key});
@@ -20,13 +21,13 @@ class PharmacyMenu extends StatelessWidget {
       bottomNavigationBar: Obx(
         () => NavigationBar(
           elevation: 8,
-          backgroundColor: Color.fromRGBO(226, 239, 247, 1),
+          backgroundColor: const Color.fromRGBO(226, 239, 247, 1),
           //surfaceTintColor: Color(0x00ff01),
           height: 80,
           onDestinationSelected: (index) =>
               controller.selectedIndex.value = index,
           selectedIndex: controller.selectedIndex.value,
-          destinations: [
+          destinations: const [
             NavigationDestination(
                 icon: Icon(CupertinoIcons.home, size: 26),
                 label: "Prescriptions",
@@ -53,5 +54,5 @@ class PharmacyMenu extends StatelessWidget {
 class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
-  final screens = [ListOrdonnace(), AddProductNotif(), Setting()];
+  final screens = [const Notif(), const AddProductNotif(), Setting()];
 }

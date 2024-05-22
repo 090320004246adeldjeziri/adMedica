@@ -67,6 +67,9 @@ class _ListOrdonnaceState extends State<ListOrdonnace> {
 
   @override
   Widget build(BuildContext context) {
+    // String userId = items.members
+        // !.where((element) => element != FirebaseAuth.instance.currentUser!.uid)
+        // .first;
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(

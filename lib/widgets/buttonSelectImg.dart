@@ -1,7 +1,11 @@
+// ignore_for_file: sort_child_properties_last
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:medical/mohamed/nouv_ist_pharma.dart';
+import 'package:medical/mohamed/nouv_list_pharma2.dart';
 import 'package:path/path.dart' as path;
 import 'package:lottie/lottie.dart';
 import '../mohamed/img_controller.dart';
@@ -144,7 +148,7 @@ class ButtonSelectImg extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const PharmacyListScreen(),
+                    builder: (context) => const LIstPharma2(name: 'name')
                   ),
                 );
               },

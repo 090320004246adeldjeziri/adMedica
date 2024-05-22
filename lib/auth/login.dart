@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:medical/auth/password_field.dart';
 import 'package:medical/auth/sign.dart';
 import 'package:medical/client/choosepage.dart';
 import 'package:medical/controller/SignUpController.dart';
@@ -61,13 +62,9 @@ class LoginPage extends StatelessWidget {
                 icon: const Icon(Icons.mail),
               ),
               const SizedBox(height: 15),
-              MyPasswordField(
-                serviceType: TextInputType.visiblePassword,
-                textEditingController: loginController.password,
-                ButtonName: "Password",
-                icon: const Icon(Icons.lock),
-              ),
-              const SizedBox(height: 20),
+           
+              PasswordField(hintText: "Mot Pass", icon: Icon(Icons.lock), controller: loginController.password)
+,              const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 height: 40,
