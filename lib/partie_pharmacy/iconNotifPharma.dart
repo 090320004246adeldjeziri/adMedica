@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,7 +38,7 @@ class _NotificationIconPharmaState extends State<NotificationIconPharma> {
   Future<void> _markDocumentsAsRead() async {
     final querySnapshot = await _firestore
         .collection('photo')
-        .where('isRead', isEqualTo: false)
+        .where('isRead', isEqualTo: false).where('maladeId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
 
     for (final doc in querySnapshot.docs) {
@@ -48,7 +49,7 @@ class _NotificationIconPharmaState extends State<NotificationIconPharma> {
   void _listenToDocumentChanges() {
     _firestore
         .collection('photo')
-        .where('isRead', isEqualTo: false)
+        .where('isRead', isEqualTo: false).where('maladeId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .snapshots()
         .listen((querySnapshot) {
       setState(() {

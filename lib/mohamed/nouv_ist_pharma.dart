@@ -396,100 +396,171 @@ class _LIstPharma2State extends State<LIstPharma2> {
     );
   }
 
-  void _handleSendImage(BuildContext context, String selectedImagePath) {
+  // void _sendMessageToSelectedPharmacies() {
+  //   // Récupérer les IDs des pharmacies sélectionnées
+  //   List<String> selectedPharmacyIds = _selectedUsers.entries
+  //       .where((entry) => entry.value == true)
+  //       .map((entry) => entry.key)
+  //       .toList();
+
+  //   if (selectedPharmacyIds.isNotEmpty) {
+  //     // Afficher une boîte de dialogue pour saisir le message
+  //     showDialog(
+  //       context: context,
+  //       builder: (context) => AlertDialog(
+  //         title: const Text('Envoyer un message'),
+  //         content: TextField(
+  //           maxLines: null,
+  //           decoration: const InputDecoration(
+  //             hintText: 'Saisissez votre message ici',
+  //           ),
+  //           onChanged: (value) {
+  //             // Enregistrer le message saisi
+  //           },
+  //         ),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () => Navigator.of(context).pop(),
+  //             child: const Text('Annuler'),
+  //           ),
+  //           ElevatedButton(
+  //             onPressed: () {
+  //               // Envoyer le message aux pharmacies sélectionnées
+  //               _sendMessage(selectedPharmacyIds, 'Votre message ici');
+  //               Navigator.of(context).pop();
+  //             },
+  //             child: const Text('Envoyer'),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //   } else {
+  //     // Afficher un message d'erreur si aucune pharmacie n'est sélectionnée
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text('Veuillez sélectionner au moins une pharmacie.'),
+  //       ),
+  //     );
+  //   }
+  // }
+
+// void _sendMessage(List<String> pharmacyIds, String message) {
+//   // Créer un objet avec le message à envoyer
+//   Map<String, dynamic> messageData = {
+//     'message': message,
+//     'timestamp': FieldValue.serverTimestamp(),
+//   };
+
+//   // Envoyer le message à chaque pharmacie sélectionnée
+//   for (String pharmacyId in pharmacyIds) {
+//     FirebaseFirestore.instance
+//         .collection('users')
+//         .doc(pharmacyId)
+//         .collection('messages')
+//         .add(messageData)
+//         .then((value) {
+//       // Le message a été envoyé avec succès
+//       print('Message envoyé à la pharmacie $pharmacyId');
+//     }).catchError((error) {
+//       // Une erreur s'est produite lors de l'envoi du message
+//       print('Erreur lors de lenvoi du message à la pharmacie $pharmacyId : $error');
+//     });
+//   }
+// }
+
+  void _handleSendImage(BuildContext context, String selectedImagePath) async {
     List<String> selectedPharmacyIds = _selectedUsers.entries
         .where((entry) => entry.value == true)
         .map((entry) => entry.key)
         .toList();
 
-    if (selectedPharmacyIds.isNotEmpty) {
-      controller.uploadImageToFirebaseStorage(selectedImagePath);
-
-      for (String pharmacyId in selectedPharmacyIds) {
-        controller.uploadImageAndAddToFirestore(selectedImagePath, selectedPharmacyIds);
-      }
-
-      OverlayEntry? overlayEntry;
-      overlayEntry = OverlayEntry(
-        builder: (context) => Positioned(
-          top: MediaQuery.of(context).size.height * 0.4,
-          left: 0,
-          right: 0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
-              Center(
-                child: SpinKitFadingCircle(
-                  color: Colors.green,
-                  size: 100.0,
-                ),
+  if (selectedPharmacyIds.isNotEmpty) {
+    // Show the loading overlay
+    OverlayEntry? overlayEntry;
+    overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: MediaQuery.of(context).size.height * 0.4,
+        left: 0,
+        right: 0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: const [
+            Center(
+              child: SpinKitFadingCircle(
+                color: Colors.green,
+                size: 100.0,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
 
       Overlay.of(context)?.insert(overlayEntry);
 
-      Timer(
-        const Duration(seconds: 5),
-        () {
-          overlayEntry?.remove();
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Image envoyée'),
-                content: const Text('Votre image a été envoyée avec succès.'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            },
+    try {
+      // Wait for the image upload to complete
+      await controller.uploadImageToFirebaseStorage(selectedImagePath);
+
+      // Add the image reference to Firestore
+      for (String pharmacyId in selectedPharmacyIds) {
+        await controller.uploadImageAndAddToFirestore(selectedImagePath, selectedPharmacyIds);
+      }
+
+      // Remove the loading overlay
+      overlayEntry.remove();
+
+      // Show success dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Image envoyée'),
+            content: const Text('Votre image a été envoyée avec succès.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
           );
         },
       );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Veuillez sélectionner au moins une pharmacie.'),
-        ),
+    } catch (e) {
+      // Remove the loading overlay
+      overlayEntry.remove();
+
+      // Show error dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Erreur'),
+            content: const Text('Échec de l\'envoi de l\'image. Veuillez réessayer.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
       );
     }
-  }
-
-  double calculateDistance(
-    double startLatitude,
-    double startLongitude,
-    double endLatitude,
-    double endLongitude,
-  ) {
-    double distanceInMeters = Geolocator.distanceBetween(
-      startLatitude,
-      startLongitude,
-      endLatitude,
-      endLongitude,
+  } else {
+    // Afficher un message d'erreur si aucune pharmacie n'est sélectionnée
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Veuillez sélectionner au moins une pharmacie.'),
+      ),
     );
-    return distanceInMeters;
-  }
-
-  String formatDistance(int distance) {
-    return distance <= 1000 ? '$distance meters' : '${(distance / 1000).toStringAsFixed(1)} km';
   }
 }
-Future<void> updatePharmacyDistance(String pharmacyId, double distance) async {
-    try {
-      await FirebaseFirestore.instance.collection('pharmacies').doc(pharmacyId).update({
-        'distance': distance,
-      });
-    } catch (e) {
-      print("Failed to update pharmacy distance: $e");
-    }
-  }
+
+}

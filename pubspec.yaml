@@ -34,6 +34,7 @@ dependencies:
   latlong2: ^0.8.2
   geocoding: ^3.0.0
   permission_handler: ^11.0.1
+  connectivity_plus: ^5.0.2
   # cloud_firestore: ^4.14.0
   
 

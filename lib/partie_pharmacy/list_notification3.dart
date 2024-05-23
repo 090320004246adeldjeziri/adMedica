@@ -17,7 +17,7 @@ class ListNot extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
-        String userId = photoModel.senderId;
+        String userId = photoModel.maladeId;
 
         return FutureBuilder<DocumentSnapshot>(
           future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
