@@ -1,4 +1,3 @@
-// ignore_for_file: sort_child_properties_last
 
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -148,7 +147,8 @@ class ButtonSelectImg extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const LIstPharma2(name: 'name')
+                    builder: (context) =>
+                      LIstPharma2()
                   ),
                 );
               },
