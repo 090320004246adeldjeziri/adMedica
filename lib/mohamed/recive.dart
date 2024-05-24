@@ -1,20 +1,25 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class Message {
   final String text;
   final Timestamp timestamp;
+  final String pharmacyName;
 
   Message({
     required this.text,
     required this.timestamp,
+    required this.pharmacyName,
   });
 }
 
 class MessageListScreen extends StatefulWidget {
+  const MessageListScreen({Key? key}) : super(key: key);
+
   @override
   _MessageListScreenState createState() => _MessageListScreenState();
 }
@@ -22,28 +27,53 @@ class MessageListScreen extends StatefulWidget {
 class _MessageListScreenState extends State<MessageListScreen> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late Stream<List<Message>> _messagesStream;
+
   @override
   void initState() {
     super.initState();
     _messagesStream = _firestore
         .collection('messages')
-        .orderBy('timestamp',
-            descending: true) // Tri par timestamp décroissant
+        .where('maladeId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .orderBy('timestamp', descending: true)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => Message(
-                  text: doc['text'],
-                  timestamp: doc['timestamp'],
-                ))
-            .toList());
+        .asyncMap(
+          (snapshot) async {
+            return Future.wait(
+              snapshot.docs.map(
+                (doc) async {
+                  final pharmacyId = doc['pharmacyId'];
+                  try {
+                    final pharmacyDoc =
+                        await _firestore.collection('users').doc(pharmacyId).get();
+                    final pharmacyName = pharmacyDoc.data()?['name'] ?? 'Nom indisponible';
 
-    // Ajout des print statements pour le débogage
-    print("Fetching messages from Firestore...");
-    _messagesStream.listen((messages) {
-      print("Received ${messages.length} messages from Firestore.");
-    }, onError: (error) {
-      print("Error fetching messages: $error");
-    });
+                    return Message(
+                      text: doc['text'],
+                      timestamp: doc['timestamp'],
+                      pharmacyName: pharmacyName,
+                    );
+                  } catch (e) {
+                    print("Error fetching pharmacy: $e");
+                    return Message(
+                      text: doc['text'],
+                      timestamp: doc['timestamp'],
+                      pharmacyName: 'Erreur de récupération',
+                    );
+                  }
+                },
+              ).toList(),
+            );
+          },
+        );
+
+    _messagesStream.listen(
+      (messages) {
+        print("Received ${messages.length} messages from Firestore.");
+      },
+      onError: (error) {
+        print("Error fetching messages: $error");
+      },
+    );
   }
 
   @override
@@ -53,46 +83,56 @@ class _MessageListScreenState extends State<MessageListScreen> {
         centerTitle: true,
         elevation: 0,
         leading: IconButton(
-            icon: Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle, color: Colors.transparent),
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.green,
-              ),
+          icon: const CircleAvatar(
+            backgroundColor: Colors.transparent,
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.green,
             ),
-            onPressed: (() {
-              Get.back();
-            })),
-        backgroundColor: Color.fromRGBO(226, 239, 247, 1),
-        title: Text('Messages', style: GoogleFonts.lexend(color: Colors.green)),
+          ),
+          onPressed: () => Get.back(),
+        ),
+        backgroundColor: const Color.fromRGBO(226, 239, 247, 1),
+        title: Text(
+          'Messages',
+          style: GoogleFonts.lexend(color: Colors.green),
+        ),
       ),
       body: StreamBuilder<List<Message>>(
         stream: _messagesStream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
+
+          if (snapshot.hasError) {
+            return Center(child: Text('Erreur: ${snapshot.error}'));
+          }
+
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(
-              child: Text('Aucun message trouvé.'),
-            );
+            return const Center(child: Text('Aucun message trouvé.'));
           }
-          return ListView.builder(
+
+          return ListView.separated(
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
-              Message message = snapshot.data![index];
+              final message = snapshot.data![index];
+              final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+              final formattedDate = dateFormat.format(message.timestamp.toDate());
+
               return ListTile(
-                title: Text(message.text),
+                title: Text(
+                  message.pharmacyName,
+                  style: GoogleFonts.lexend(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(message.text),
                 trailing: Text(
-                  message.timestamp.toDate().toString(),
-                  style: TextStyle(color: Colors.grey),
+                  formattedDate,
+                  style: const TextStyle(color: Colors.grey),
                 ),
               );
             },
+            separatorBuilder: (context, index) => const Divider(),
           );
         },
       ),

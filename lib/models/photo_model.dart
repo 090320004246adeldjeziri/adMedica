@@ -4,8 +4,8 @@ class PhotoModel {
   final String id;
   final String imageUrl;
   final bool isRead;
-  final String pharmacy;
-  final String senderId;
+  final List pharmacy;
+  final String maladeId;
   final DateTime timestamp;
 
   PhotoModel({
@@ -13,7 +13,7 @@ class PhotoModel {
     required this.imageUrl,
     required this.isRead,
     required this.pharmacy,
-    required this.senderId,
+    required this.maladeId,
     required this.timestamp,
   });
 
@@ -25,7 +25,7 @@ class PhotoModel {
       imageUrl: data['image_url'] ?? '',
       isRead: data['isRead'] ?? false,
       pharmacy: data['pharmacy'] ?? '',
-      senderId: data['senderId'] ?? '',
+      maladeId: data['maladeId'] ?? '',
       timestamp: (data['timestamp'] as Timestamp).toDate(),
     );
   }
@@ -36,7 +36,7 @@ class PhotoModel {
       'image_url': imageUrl,
       'isRead': isRead,
       'pharmacy': pharmacy,
-      'senderId': senderId,
+      'maladeId': maladeId,
       'timestamp': Timestamp.fromDate(timestamp),
     };
   }

@@ -174,7 +174,7 @@ class _LIstPharma2State extends State<LIstPharma2> {
 //   }
 // }
 
-void _handleSendImage(BuildContext context, String selectedImagePath) {
+void _handleSendImage(BuildContext context, String selectedImagePath) async {
   // Récupérer les IDs des pharmacies sélectionnées
   List<String> selectedPharmacyIds = _selectedUsers.entries
       .where((entry) => entry.value == true)
@@ -182,12 +182,7 @@ void _handleSendImage(BuildContext context, String selectedImagePath) {
       .toList();
 
   if (selectedPharmacyIds.isNotEmpty) {
-    controller.uploadImageToFirebaseStorage(selectedImagePath);
-
-    for (String pharmacyId in selectedPharmacyIds) {
-      controller.uploadImageAndAddToFirestore(selectedImagePath, selectedPharmacyIds);
-    }
-
+    // Show the loading overlay
     OverlayEntry? overlayEntry;
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -210,31 +205,61 @@ void _handleSendImage(BuildContext context, String selectedImagePath) {
 
     Overlay.of(context)?.insert(overlayEntry);
 
-    Timer(
-      const Duration(seconds: 5),
-      () {
-        overlayEntry?.remove();
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Image envoyée'),
-              content: const Text('Votre image a été envoyée avec succès.'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
+    try {
+      // Wait for the image upload to complete
+      await controller.uploadImageToFirebaseStorage(selectedImagePath);
+
+      // Add the image reference to Firestore
+      for (String pharmacyId in selectedPharmacyIds) {
+        await controller.uploadImageAndAddToFirestore(selectedImagePath, selectedPharmacyIds);
+      }
+
+      // Remove the loading overlay
+      overlayEntry.remove();
+
+      // Show success dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Image envoyée'),
+            content: const Text('Votre image a été envoyée avec succès.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      // Remove the loading overlay
+      overlayEntry.remove();
+
+      // Show error dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Erreur'),
+            content: const Text('Échec de l\'envoi de l\'image. Veuillez réessayer.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   } else {
     // Afficher un message d'erreur si aucune pharmacie n'est sélectionnée
     ScaffoldMessenger.of(context).showSnackBar(
@@ -244,4 +269,5 @@ void _handleSendImage(BuildContext context, String selectedImagePath) {
     );
   }
 }
+
 }

@@ -6,6 +6,7 @@ import 'package:medical/client/SettingPage.dart';
 import 'package:medical/doctor/doctor/screen/doctorList.dart';
 import 'package:medical/partie_pharmacy/addProductNotif.dart';
 import 'package:medical/partie_pharmacy/list_notification.dart';
+import 'package:medical/partie_pharmacy/list_pharmacy4.dart';
 
 import 'iconNotifPharma.dart';
 import 'list_notification2.dart';
@@ -54,5 +55,5 @@ class PharmacyMenu extends StatelessWidget {
 class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
-  final screens = [const Notif(), const AddProductNotif(), Setting()];
+  final screens = [ Notif(), const AddProductNotif(), Setting()];
 }

@@ -63,16 +63,16 @@ class ImageController extends GetxController {
 Future<void> uploadImageAndAddToFirestore(String imagePath,List<String> pharmacyIds) async {
   // Téléverser l'image vers Firebase Storage et obtenir l'URL de téléchargement
   String? imageUrl = await uploadImageToFirebaseStorage(imagePath);
-   String? senderId = FirebaseAuth.instance.currentUser?.uid;
+   String? maladeId = FirebaseAuth.instance.currentUser?.uid;
 
-  if (imageUrl != null && senderId != null) {
+  if (imageUrl != null && maladeId != null) {
     // Ajouter l'URL de l'image à Firestore
     try {
       await FirebaseFirestore.instance.collection('photo').add({
         'image_url': imageUrl,
         'timestamp': FieldValue.serverTimestamp(),
         'isRead':false,
-        'senderId': senderId,
+        'maladeId': maladeId,
         'pharmacy': pharmacyIds,
       });
       print('Image URL added to Firestore');

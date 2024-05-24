@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,7 +23,7 @@ class _NotificationIconState extends State<NotificationIcon> {
   void fetchNewDocuments() {
     FirebaseFirestore.instance
         .collection('messages')
-        .where('isRead', isEqualTo: false).orderBy('timestamp',descending: true)
+        .where('isRead', isEqualTo: false).orderBy('timestamp',descending: true).where('maladeId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((querySnapshot) {
       setState(() {
@@ -34,7 +35,7 @@ class _NotificationIconState extends State<NotificationIcon> {
   void markDocumentsAsRead() {
     FirebaseFirestore.instance
         .collection('messages')
-        .where('isRead', isEqualTo: false)
+        .where('isRead', isEqualTo: false).where('maladeId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((querySnapshot) {
       querySnapshot.docs.forEach((doc) {
@@ -46,7 +47,7 @@ class _NotificationIconState extends State<NotificationIcon> {
   void listenToDocumentChanges() {
     FirebaseFirestore.instance
         .collection('messages')
-        .where('isRead', isEqualTo: false)
+        .where('isRead', isEqualTo: false).where('maladeId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .snapshots()
         .listen((querySnapshot) {
       setState(() {
