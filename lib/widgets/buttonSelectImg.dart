@@ -148,6 +148,7 @@ class ButtonSelectImg extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
+                    // PharmacyListScreen()
                       LIstPharma2()
                   ),
                 );
