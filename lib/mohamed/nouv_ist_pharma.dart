@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:medical/modelPharm.dart';
 import 'package:medical/services/imagesService.dart';
 import 'package:medical/view/location.dart';
 import 'package:get/get.dart';
@@ -30,8 +29,6 @@ class Pharmacy {
   });
 }
 
-
-
 class LIstPharma2 extends StatefulWidget {
   const LIstPharma2({Key? key}) : super(key: key);
 
@@ -45,6 +42,7 @@ class _LIstPharma2State extends State<LIstPharma2> {
   Map<String, bool> _selectedUsers = {};
   double selectedDistance = 1000;
   bool isLocationLoaded = false;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -67,17 +65,16 @@ class _LIstPharma2State extends State<LIstPharma2> {
       print('Error getting location: $e');
     }
   }
- 
 
   List<Pharmacy> filteredPharmacies(List<DocumentSnapshot> pharmacies) {
     return pharmacies.map((pharmacy) {
       var pharmacyData = pharmacy.data() as Map<String, dynamic>;
-       double distanceInMeters = Geolocator.distanceBetween(
-  locControl.latitude.value,
-  locControl.longitude.value,
-  pharmacyData['latitude'],
-  pharmacyData['longitude'],
-);
+      double distanceInMeters = Geolocator.distanceBetween(
+        locControl.latitude.value,
+        locControl.longitude.value,
+        pharmacyData['latitude'],
+        pharmacyData['longitude'],
+      );
       //double distanceInMeters = (pharmacyData['distance'] ?? 400.0).toDouble();
 
       print('Pharmacy: ${pharmacyData['name']}, Distance: $distanceInMeters meters');
@@ -109,134 +106,146 @@ class _LIstPharma2State extends State<LIstPharma2> {
         backgroundColor: Colors.teal,
         elevation: 0,
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Select Distance: ',
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.teal,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                DropdownButton<int>(
-                  value: selectedDistance.toInt(),
-                  onChanged: (int? value) {
-                    setState(() {
-                      selectedDistance = value!.toDouble();
-                    });
-                  },
-                  items: [1000, 1500, 2000, 3000,10000,20000].map<DropdownMenuItem<int>>((int distance) {
-                    return DropdownMenuItem<int>(
-                      value: distance,
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    Expanded(
                       child: Text(
-                        distance == 1000 ? 'Less than 1 km' : '${distance / 1000} km',
+                        'Select Distance: ',
                         style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
                           color: Colors.teal,
-                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                    );
-                  }).toList(),
-                  icon: const Icon(
-                    Icons.arrow_drop_down,
-                    color: Colors.teal,
-                  ),
-                  underline: Container(
-                    height: 1,
-                    color: Colors.grey.shade300,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: isLocationLoaded
-                ? StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance.collection('pharmacies').snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-
-                      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                        return const Center(child: Text('No pharmacies found.'));
-                      }
-
-                      var pharmacies = filteredPharmacies(snapshot.data!.docs);
-
-                      if (pharmacies.isEmpty) {
-                        print('No pharmacies within the selected distance');
-                      } else {
-                        pharmacies.forEach((pharmacy) {
-                          print('Pharmacy within distance: ${pharmacy.name}, ${pharmacy.distance} meters');
+                    ),
+                    const SizedBox(width: 10),
+                    DropdownButton<int>(
+                      value: selectedDistance.toInt(),
+                      onChanged: (int? value) {
+                        setState(() {
+                          selectedDistance = value!.toDouble();
                         });
-                      }
-
-                      return ListView.builder(
-                        itemCount: pharmacies.length,
-                        itemBuilder: (context, index) {
-                          var pharmacy = pharmacies[index];
-                          var pharmacyId = snapshot.data!.docs[index].id;
-
-                          if (_selectedUsers[pharmacyId] == null) {
-                            _selectedUsers[pharmacyId] = false;
+                      },
+                      items: [1000, 1500, 2000, 3000, 10000, 20000].map<DropdownMenuItem<int>>((int distance) {
+                        return DropdownMenuItem<int>(
+                          value: distance,
+                          child: Text(
+                            distance == 1000 ? 'Less than 1 km' : '${distance / 1000} km',
+                            style: GoogleFonts.poppins(
+                              color: Colors.teal,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      icon: const Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.teal,
+                      ),
+                      underline: Container(
+                        height: 1,
+                        color: Colors.grey.shade300,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: isLocationLoaded
+                    ? StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance.collection('pharmacies').snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
                           }
 
-                          return Card(
-                            elevation: 2,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                pharmacy.name,
-                                style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.teal,
+                          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                            return const Center(child: Text('No pharmacies found.'));
+                          }
+
+                          var pharmacies = filteredPharmacies(snapshot.data!.docs);
+
+                          if (pharmacies.isEmpty) {
+                            print('No pharmacies within the selected distance');
+                          } else {
+                            pharmacies.forEach((pharmacy) {
+                              print('Pharmacy within distance: ${pharmacy.name}, ${pharmacy.distance} meters');
+                            });
+                          }
+
+                          return ListView.builder(
+                            itemCount: pharmacies.length,
+                            itemBuilder: (context, index) {
+                              var pharmacy = pharmacies[index];
+                              var pharmacyId = snapshot.data!.docs[index].id;
+
+                              if (_selectedUsers[pharmacyId] == null) {
+                                _selectedUsers[pharmacyId] = false;
+                              }
+
+                              return Card(
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                              ),
-                              subtitle: Text(formatDistance(pharmacy.distance.toInt())),
-                              leading: IconButton(
-                                icon: const Icon(
-                                  Icons.location_on,
-                                  color: Colors.teal,
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
                                 ),
-                                onPressed: () {
-                                  _launchMap(pharmacy);
-                                },
-                              ),
-                              trailing: Checkbox(
-                                value: _selectedUsers[pharmacyId],
-                                onChanged: (bool? value) {setState(() {
-                                    _selectedUsers[pharmacyId] = value!;
-                                  });
-                                },
-                                activeColor: Colors.teal,
-                                checkColor: Colors.white,
-                              ),
-                              onTap: () {
-                                ImageService.selectedImagePath = pharmacy.imagePath.last;
-                              },
-                            ),
+                                child: ListTile(
+                                  title: Text(
+                                    pharmacy.name,
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.teal,
+                                    ),
+                                  ),
+                                  subtitle: Text(formatDistance(pharmacy.distance.toInt())),
+                                  leading: IconButton(
+                                    icon: const Icon(
+                                      Icons.location_on,
+                                      color: Colors.teal,
+                                    ),
+                                    onPressed: () {
+                                      _launchMap(pharmacy);
+                                    },
+                                  ),
+                                  trailing: Checkbox(
+                                    value: _selectedUsers[pharmacyId],
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        _selectedUsers[pharmacyId] = value!;
+                                      });
+                                    },
+                                    activeColor: Colors.teal,
+                                    checkColor: Colors.white,
+                                  ),
+                                  onTap: () {
+                                    ImageService.selectedImagePath = pharmacy.imagePath.last;
+                                  },
+                                ),
+                              );
+                            },
                           );
                         },
-                      );
-                    },
-                  )
-                : const Center(child: CircularProgressIndicator()),
+                      )
+                    : const Center(child: CircularProgressIndicator()),
+              ),
+            ],
           ),
+          if (isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
         ],
       ),
       floatingActionButton: Row(
@@ -256,7 +265,7 @@ class _LIstPharma2State extends State<LIstPharma2> {
               ),
             ),
             icon: Icon(
-              _selectedUsers.values.every((isSelected) => isSelected) ? Icons.deselect : Icons.select_all,
+              _selectedUsers.values.every((isSelected) => isSelected) ? Icons.select_all : Icons.deselect,
             ),
             backgroundColor: Colors.teal,
           ),
@@ -280,8 +289,7 @@ class _LIstPharma2State extends State<LIstPharma2> {
   }
 
   void _launchMap(Pharmacy pharmacy) async {
-    final url =
-        'https://www.google.com/maps/search/?api=1&query=${pharmacy.latitude},${pharmacy.longitude}';
+    final url = 'https://www.google.com/maps/search/?api=1&query=${pharmacy.latitude},${pharmacy.longitude}';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -289,40 +297,41 @@ class _LIstPharma2State extends State<LIstPharma2> {
     }
   }
 
-  void _handleSendImage(BuildContext context, String selectedImagePath) {
+  void _handleSendImage(BuildContext context, String selectedImagePath) async {
     List<String> selectedPharmacyIds = _selectedUsers.entries
         .where((entry) => entry.value == true)
         .map((entry) => entry.key)
         .toList();
 
     if (selectedPharmacyIds.isNotEmpty) {
-      controller.uploadImageToFirebaseStorage(selectedImagePath);
+      setState(() {
+        isLoading = true;
+      });
+
+      await controller.uploadImageToFirebaseStorage(selectedImagePath);
 
       for (String pharmacyId in selectedPharmacyIds) {
-        controller.uploadImageAndAddToFirestore(selectedImagePath, selectedPharmacyIds);
+        await controller.uploadImageAndAddToFirestore(selectedImagePath, selectedPharmacyIds);
       }
 
-      Timer(
-        const Duration(seconds: 5),
-        () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Image sent'),
-                content: const Text('Your image has been successfully sent.'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            },
+      setState(() {
+        isLoading = false;
+      });
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Image sent'),
+            content: const Text('Your image has been successfully sent.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
           );
         },
       );

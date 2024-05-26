@@ -10,7 +10,7 @@ import 'package:medical/view/location.dart';
 import 'News.dart';
 import 'firebase_options.dart';
 import 'package:get/get.dart';
-import 'modelPharm.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
